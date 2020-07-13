@@ -1,8 +1,6 @@
 package com.i_am_guna.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.i_am_guna.entity.Tag;
 import com.i_am_guna.entity.LoginSuccessData;
 import com.i_am_guna.entity.Role;
 import com.i_am_guna.entity.User;
@@ -35,17 +32,7 @@ public class CustomUserDetailsService  implements UserDetailsService{
 	
 	public LoginSuccessData getUserDetails(String username) {
 		User user = userRepository.findByUserName(username);
-		Collection<Role> roles = user.getRoles();
-		Collection<Tag> tags = user.getTags();
-		List<String> rolesList = new ArrayList<String>();
-		List<String> tagsList = new ArrayList<String>();
-		for(Role role : roles) {
-			rolesList.add(role.getRoleName());
-		}
-		for(Tag tag : tags) {
-			tagsList.add(Integer.toString(tag.getTagId()));
-		}
-		return new LoginSuccessData(user.getFirstName(), user.getLastName(), user.getEmail(), user.getBlockFlag(), user.getBlockReason(), rolesList, tagsList);
+		return new LoginSuccessData(user.getUserId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getBlockFlag(), user.getBlockReason(), user.getRoles(), user.getTags());
 	}
 	
 }

@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -29,6 +31,7 @@ public class Role {
 	@JoinTable(name = "users_roles", 
 	joinColumns = {@JoinColumn(name = "role_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "user_id")})
+	@JsonIgnore
 	private Collection<User> users;
 
 	public Role() {

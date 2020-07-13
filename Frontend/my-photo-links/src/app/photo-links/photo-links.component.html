@@ -1,1 +1,10 @@
-<p>photo-links works!</p>
+<mat-tab-group *ngIf="!resultsMode">
+  <mat-tab label="Search by Query">
+      <app-search-by-query></app-search-by-query>
+  </mat-tab>
+  <mat-tab label="Search by Tag">
+    <app-search-by-tag></app-search-by-tag>
+  </mat-tab>
+</mat-tab-group>
+
+<app-results *ngIf="resultsMode"></app-results>

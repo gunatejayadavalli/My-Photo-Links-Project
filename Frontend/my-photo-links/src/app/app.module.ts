@@ -13,6 +13,10 @@ import { ResultsComponent } from './photo-links/results/results.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import {AuthService} from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -31,9 +35,13 @@ import { WelcomeComponent } from './welcome/welcome.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

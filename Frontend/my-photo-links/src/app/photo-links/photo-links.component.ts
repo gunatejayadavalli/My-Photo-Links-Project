@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PhotoLinksComponent implements OnInit {
 
+  resultsMode = false;
+
   constructor() { }
 
   ngOnInit(): void {

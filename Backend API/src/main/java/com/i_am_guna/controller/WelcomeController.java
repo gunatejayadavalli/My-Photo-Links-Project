@@ -3,6 +3,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class WelcomeController {
 		return "Hello World..!!!";
 	}
 	
+	@CrossOrigin
 	@PostMapping("/authenticate")
 	public LoginSuccessData generateToken(@RequestBody AuthRequest authRequest) throws Exception {
 		System.out.println("inside generateToken");
@@ -44,7 +46,7 @@ public class WelcomeController {
 			loginSuccessData = userDetailsService.getUserDetails(authRequest.getUsername());
 			loginSuccessData.setToken(jwtUtil.generateToken(authRequest.getUsername()));
 			loginSuccessData.setLoggedInDate(JwtUtil.createTokenDate);
-			loginSuccessData.setLoginExpireDate(JwtUtil.expireTokenDate);
+			loginSuccessData.setTokenExpirationDate(JwtUtil.expireTokenDate);
 		}catch (Exception e) {
 			throw new Exception("Invalid Username or Password");
 		}

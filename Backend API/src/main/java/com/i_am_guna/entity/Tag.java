@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tags")
 public class Tag {
@@ -30,28 +32,34 @@ public class Tag {
 	
 	@Column(name="creation_time")
 	@CreationTimestamp
+	@JsonIgnore
 	private Date creationTime;
 	
 	@Column(name="created_by")
+	@JsonIgnore
 	private String createdBy;
 	
 	@Column(name="updation_time")
 	@UpdateTimestamp
+	@JsonIgnore
 	private Date updationTime;
 	
 	@Column(name="updated_by")
+	@JsonIgnore
 	private String updatedBy;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name = "photolinks_tags", 
 	joinColumns = {@JoinColumn(name = "tag_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "event_id")})
+	@JsonIgnore
 	private Collection<PhotoLink> photoLinks;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name = "users_tags", 
 	joinColumns = {@JoinColumn(name = "tag_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "user_id")})
+	@JsonIgnore
 	private Collection<User> users;
 	
 	public Tag() {

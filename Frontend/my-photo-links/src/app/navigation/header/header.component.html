@@ -1,1 +1,16 @@
-<p>header works!</p>
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="OnToggleSideNav()">
+    <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div><a routerLink="/">My Photo Links</a></div>
+  <div fxFlex fxlayout fxLayoutAlign="flex-end" fxHide.xs>
+    <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+      <li *ngIf="!isAuthenticated"><a routerLink="/signup">Signup</a></li>
+      <li *ngIf="!isAuthenticated"><a routerLink="/login">Login</a></li>
+      <li *ngIf="isAuthenticated"><a routerLink="/photoLinks">Photo Links</a></li>
+      <li *ngIf="isAuthenticated"><a style="cursor: pointer;" (click)="OnLogout()">Logout</a></li>
+    </ul>
+  </div>
+</mat-toolbar>
