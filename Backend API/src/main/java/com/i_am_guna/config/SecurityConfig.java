@@ -3,6 +3,7 @@ package com.i_am_guna.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.BeanIds;
@@ -47,6 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().cors().disable().authorizeRequests()
 			.antMatchers("/authenticate").permitAll()
+			.antMatchers("/checkUserNameExist/**").permitAll()
+			.antMatchers("/registerUser").permitAll()
+			.antMatchers("/getUserSecQues/**").permitAll()
+			.antMatchers("/validateAnswer").permitAll()
+			.antMatchers("/resetPassword").permitAll()
 			.antMatchers("/noLogin").permitAll()
 			.antMatchers("/superAdmin").hasRole("SUPERADMIN")
 			.antMatchers("/admin").hasAnyRole("SUPERADMIN","ADMIN")

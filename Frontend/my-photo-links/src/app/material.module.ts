@@ -9,6 +9,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -21,7 +23,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatStepperModule,
+    MatCardModule
   ],
   exports: [
     MatSidenavModule,
@@ -33,7 +37,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatStepperModule,
+    MatCardModule
   ]
 })
 export class MaterialModule { }

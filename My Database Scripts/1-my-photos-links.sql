@@ -34,7 +34,7 @@ USE `photo-links-project` ;
 
 CREATE TABLE `photo-links-project`.`users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL UNIQUE,
   `password` char(80) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,

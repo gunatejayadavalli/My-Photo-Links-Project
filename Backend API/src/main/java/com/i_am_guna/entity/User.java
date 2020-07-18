@@ -20,7 +20,7 @@ import java.util.Date;
 	                    @ColumnResult(name = "photosLink")
 	            }
 	    )
-	)
+)
 @NamedNativeQuery(
 		name = "findPhotoLinksByUserName", 
 		query = "select distinct pl.event_id as eventId, pl.event as event, pl.from_date as fromDate, pl.to_date as toDate, pl.photos_link as photosLink from photo_links pl " + 
@@ -29,7 +29,8 @@ import java.util.Date;
 				"inner join users u on u.user_id = ut.user_id " + 
 				"where u.username = ?1 order by pl.from_date desc", 
 		resultClass = PhotoLink.class, 
-		resultSetMapping = "photoLinksByUserNameDataMapping")
+		resultSetMapping = "photoLinksByUserNameDataMapping"
+)
 public class User {
 
 	@Id

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from './user.model';
 import { Role } from './role.model';
@@ -47,6 +47,34 @@ export class AuthService {
     );
   }
 
+  signup(username: string, password: string, firstName: string, lastName: string, email: string, secQues: string, answer: string) {
+    return this.http.post(environment.apiUrl+'/registerUser',
+      {
+        userName: username,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        securityQues: secQues,
+        securityAns: answer,
+        blockFlag: "N"
+      }
+    )
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/login']);
+    localStorage.removeItem('userData');
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
+  }
+
   autoLogin() {
     const userData: {
       userId: number,
@@ -74,20 +102,40 @@ export class AuthService {
     }
   }
 
-  logout() {
-    this.user.next(null);
-    this.router.navigate(['/login']);
-    localStorage.removeItem('userData');
-    if (this.tokenExpirationTimer) {
-      clearTimeout(this.tokenExpirationTimer);
-    }
-    this.tokenExpirationTimer = null;
-  }
-
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
+  }  
+
+  checkUserNameExist(username : string){
+    return this.http.get<boolean>(environment.apiUrl+'/checkUserNameExist/'+username).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getUserSecQuesForResetPwd(username : string){
+    return this.http.get(environment.apiUrl+'/getUserSecQues/'+username, {responseType:'text'}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  validateAnswer(username: string, enteredAnswer: string){
+    return this.http.post<boolean>(environment.apiUrl+'/validateAnswer',{
+      userName: username,
+      securityAns: enteredAnswer
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  resetPassword(username: string, newPassword: string){
+    return this.http.post<number>(environment.apiUrl+'/resetPassword',{
+      userName: username,
+      password: newPassword
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleAuthentication(
@@ -111,7 +159,19 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    return throwError("Error Occured");
+    let errorMessage = 'An unknown error occurred!';
+    if (!errorRes.error || !errorRes.error.message) {
+      return throwError(errorMessage);
+    }
+    switch (errorRes.error.message) {
+      case 'USER_NOT_FOUND':
+        errorMessage = 'User doesn\'t exist !!';
+        break;
+      case 'INVALID_PASSWORD':
+        errorMessage = 'Password is incorrect !!';
+        break;
+    }
+    return throwError(errorMessage);
   }
 
 }

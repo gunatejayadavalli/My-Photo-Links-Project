@@ -1,1 +1,105 @@
-<p>signup works!</p>
+<section>
+<br>
+<mat-card fxLayout="column" fxLayoutAlign="center center">
+
+  <mat-card-header>
+    <mat-card-title>Sign Up</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <mat-vertical-stepper linear="true" #stepper fxLayout="column" fxLayoutAlign="center center">
+      
+      <mat-step [stepControl]="userNameFormgroup">
+        <form [formGroup]="userNameFormgroup" fxLayout="column" fxLayoutAlign="center center">
+          <ng-template matStepLabel>Choose a username</ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input type="text" matInput placeholder="Enter username" formControlName="username" (keyup)="onKeyUsername()">
+            <mat-hint>Must be min 4 characters long</mat-hint>
+            <mat-error *ngIf="userNameFormgroup.controls.username.hasError('required')">Username is missing</mat-error>
+            <mat-error *ngIf="userNameFormgroup.controls.username.hasError('notUnique')">User name already taken</mat-error>
+          </mat-form-field>
+          <div *ngIf="!isUsernameValidating">
+          <button mat-button color="primary" [disabled]="userNameFormgroup.controls.username.invalid || !userNameFormgroup.hasError('modified')" (click)="validateUserName()">Check Availability</button>
+          <button mat-button matStepperNext color="primary" [disabled]="userNameFormgroup.invalid">Next</button>
+          </div>
+          <mat-spinner *ngIf="isUsernameValidating"></mat-spinner>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="passwordFormGroup">
+        <form [formGroup]="passwordFormGroup" fxLayout="column" fxLayoutAlign="center center">
+          <ng-template matStepLabel>Choose a password</ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Enter password" formControlName="password" (keyup)="onKeyPassword()">
+            <mat-hint>Must be min 8 charaters long</mat-hint>
+            <mat-error>Must be min 8 charaters long</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <input type="password" matInput placeholder="Re-enter password" formControlName="confirmPassword" (keyup)="onKeyPassword()">
+            <mat-error *ngIf="passwordFormGroup.controls.confirmPassword.hasError('mismatch')">Passwords didn't match</mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious color="accent">Back</button>
+            <button mat-button matStepperNext color="primary" [disabled]="passwordFormGroup.invalid">Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="userDetailsFormGroup">
+        <form [formGroup]="userDetailsFormGroup" fxLayout="column" fxLayoutAlign="center center">
+          <ng-template matStepLabel>Enter your details</ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input type="text" matInput placeholder="Your first name" formControlName="firstName">
+            <mat-error>Missing first name</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input type="text" matInput placeholder="Your last name" formControlName="lastName">
+            <mat-error>Missing last name</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email ID</mat-label>
+            <input type="email" matInput placeholder="Your email id" formControlName="email">
+            <mat-error>Missing/invalid email id</mat-error>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious color="accent">Back</button>
+            <button mat-button matStepperNext color="primary" [disabled]="userDetailsFormGroup.invalid">Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="secQuesAnsFormGroup">
+        <form [formGroup]="secQuesAnsFormGroup" fxLayout="column" fxLayoutAlign="center center">
+          <ng-template matStepLabel>Password recovery</ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Security Question</mat-label>
+            <input type="text" #ques matInput placeholder="Your security question" formControlName="secQues">
+            <mat-hint>Must be min 5 and max 50 characters long</mat-hint>
+            <mat-hint align="end">{{ques.value?.length || 0}}/50</mat-hint>
+            <mat-error>Must be min 5 and max 50 characters long</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Answer</mat-label>
+            <input type="text" matInput placeholder="Your answer" formControlName="answer">
+            <mat-error>Missing answer</mat-error>
+          </mat-form-field>
+          <div *ngIf="!isLoading">
+            <button mat-button matStepperPrevious color="accent">Back</button>
+            <button mat-button (click)="OnSubmit()" [disabled]="secQuesAnsFormGroup.invalid">Submit</button>
+          </div>
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </form>
+      </mat-step>
+
+    </mat-vertical-stepper>
+
+  </mat-card-content>
+
+</mat-card>
+</section>

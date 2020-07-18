@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       },
       errorMessage => {
         this.isLoading = false;
-        this.snackBar.open('Login Failed !!', null, {
+        this.snackBar.open(errorMessage, null, {
           duration: 2000
         })
       }

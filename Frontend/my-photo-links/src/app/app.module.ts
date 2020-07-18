@@ -15,8 +15,10 @@ import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthService} from './auth/auth.service';
+import {AuthInterceptorService} from './auth/auth-interceptor.service';
+import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {AuthService} from './auth/auth.service';
     ResultsComponent,
     HeaderComponent,
     SideNavComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,14 @@ import {AuthService} from './auth/auth.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
