@@ -1,0 +1,34 @@
+<section class="user-not-allowed" fxLayout="column" fxLayoutAlign="center center">
+
+    <br><br><br>
+    
+    <div *ngIf="userBlocked" fxLayout="column" fxLayoutAlign="center center">
+
+
+        <h2 style="color: red;"><b>USER BLOCKED</b></h2> <br><br>
+
+        <div class="message" *ngIf="blockReason"><b>Reason : <i>{{blockReason}}</i></b></div>
+        <br>
+        <div>
+            <a [href]="contactAdminUrl" target="_blank" mat-button>Contact Admin<mat-icon>chat</mat-icon></a>
+        </div>
+
+    </div>
+
+    <div *ngIf="userHasNoTags" fxLayout="column" fxLayoutAlign="center center">
+
+        <h2 style="color: darkorange"><b>USER HAS NO TAGS</b></h2> <br><br>
+
+        <div class="message"><b>Hi {{loggedInUser.firstName}} {{loggedInUser.lastName}}, currently you dont have any tags assigned. To get a tag assigned please contact admin from below link</b></div>
+        <br>
+        <div>
+            <a [href]="contactAdminUrl" target="_blank" mat-button>Contact Admin<mat-icon>chat</mat-icon></a>
+        </div>
+        
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <a href="/photoLinks" mat-raised-button color="primary">Refresh</a>
+
+</section>

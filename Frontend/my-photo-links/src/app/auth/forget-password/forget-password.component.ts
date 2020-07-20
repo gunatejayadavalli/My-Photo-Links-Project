@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-forget-password',
   templateUrl: './forget-password.component.html',
   styleUrls: ['./forget-password.component.css']
 })
-export class ForgetPasswordComponent implements OnInit {
+export class ForgetPasswordComponent implements OnInit,OnDestroy {
 
 
   isUsernameValidating = false;
@@ -18,6 +19,7 @@ export class ForgetPasswordComponent implements OnInit {
   secQuesAnsFormGroup: FormGroup;
   passwordResetGroup: FormGroup;
   isLoading= false;
+  allSubs : Subscription[] = [];
 
   constructor(private authService : AuthService, private router : Router, private snackBar: MatSnackBar) {}
 
@@ -41,7 +43,7 @@ export class ForgetPasswordComponent implements OnInit {
 
   getUserSecQues(){
     this.isUsernameValidating = true;
-    this.authService.getUserSecQuesForResetPwd(this.userNameFormgroup.value.username).subscribe(resData => {
+    this.allSubs.push(this.authService.getUserSecQuesForResetPwd(this.userNameFormgroup.value.username).subscribe(resData => {
       if(resData!="USER_DONT_EXIST"){
         this.userNameFormgroup.setErrors(null);
         this.userNameFormgroup.get('username').setErrors(null);
@@ -55,12 +57,18 @@ export class ForgetPasswordComponent implements OnInit {
         });
       }
       this.isUsernameValidating = false;
-    });
+    },
+    errorMessage => {
+      this.isUsernameValidating = false;
+      this.snackBar.open(errorMessage, null, {
+        duration: 2000
+      })
+    }));
   }
 
   validateAnswer(){
     this.isAnswerValidating = true;
-    this.authService.validateAnswer(this.userNameFormgroup.value.username, this.secQuesAnsFormGroup.value.answer).subscribe(resData => {
+    this.allSubs.push(this.authService.validateAnswer(this.userNameFormgroup.value.username, this.secQuesAnsFormGroup.value.answer).subscribe(resData => {
       if(resData){
         this.secQuesAnsFormGroup.setErrors(null);
         this.secQuesAnsFormGroup.get('answer').setErrors(null);
@@ -70,7 +78,13 @@ export class ForgetPasswordComponent implements OnInit {
         });
       }
       this.isAnswerValidating = false;
-    });
+    },
+    errorMessage => {
+      this.isAnswerValidating = false;
+      this.snackBar.open(errorMessage, null, {
+        duration: 2000
+      })
+    }));
   }
 
   onKeyUsername(){
@@ -97,7 +111,7 @@ export class ForgetPasswordComponent implements OnInit {
 
   OnSubmit(){
     this.isLoading = true;
-    this.authService.resetPassword(
+    this.allSubs.push(this.authService.resetPassword(
       this.userNameFormgroup.value.username,
       this.passwordResetGroup.value.password
     ).subscribe(
@@ -116,8 +130,18 @@ export class ForgetPasswordComponent implements OnInit {
           duration: 2000
         })
       }
-    );
+    ));
 
+  }
+
+  ngOnDestroy(){
+    if(this.allSubs.length>0){
+      this.allSubs.forEach(sub => {
+        if(sub){
+          sub.unsubscribe();
+        }
+      })
+    }
   }
 
 }

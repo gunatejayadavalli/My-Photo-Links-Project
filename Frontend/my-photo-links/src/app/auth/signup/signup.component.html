@@ -18,7 +18,8 @@
             <input type="text" matInput placeholder="Enter username" formControlName="username" (keyup)="onKeyUsername()">
             <mat-hint>Must be min 4 characters long</mat-hint>
             <mat-error *ngIf="userNameFormgroup.controls.username.hasError('required')">Username is missing</mat-error>
-            <mat-error *ngIf="userNameFormgroup.controls.username.hasError('notUnique')">User name already taken</mat-error>
+            <mat-error *ngIf="userNameFormgroup.controls.username.hasError('pattern')">Username should contain alphanumerics only</mat-error>
+            <mat-error *ngIf="userNameFormgroup.controls.username.hasError('notUnique')">Username already taken</mat-error>
           </mat-form-field>
           <div *ngIf="!isUsernameValidating">
           <button mat-button color="primary" [disabled]="userNameFormgroup.controls.username.invalid || !userNameFormgroup.hasError('modified')" (click)="validateUserName()">Check Availability</button>

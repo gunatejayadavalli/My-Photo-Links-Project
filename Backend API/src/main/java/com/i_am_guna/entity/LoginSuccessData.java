@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.Collection;
 
 public class LoginSuccessData {
+	
 	private int userId;
+	private String userName;
 	private String firstName;
 	private String lastName;
 	private String emailId;
@@ -15,11 +17,13 @@ public class LoginSuccessData {
 	private Date tokenExpirationDate;
 	private Collection<Role> roles;
 	private Collection<Tag> tags;
+	
 	public LoginSuccessData() {
 	}
 	
-	public LoginSuccessData(int userId, String firstName, String lastName, String emailId, String blockFlag, String blockReason,Collection<Role> roles, Collection<Tag> tags) {
+	public LoginSuccessData(int userId,String userName, String firstName, String lastName, String emailId, String blockFlag, String blockReason,Collection<Role> roles, Collection<Tag> tags) {
 		this.userId = userId;
+		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailId = emailId;
@@ -35,6 +39,14 @@ public class LoginSuccessData {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getFirstName() {
@@ -119,11 +131,10 @@ public class LoginSuccessData {
 
 	@Override
 	public String toString() {
-		return "LoginSuccessData [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", emailId=" + emailId + ", blockFlag=" + blockFlag + ", blockReason=" + blockReason + ", token="
-				+ token + ", loggedInDate=" + loggedInDate + ", tokenExpirationDate=" + tokenExpirationDate + ", roles="
-				+ roles + ", tags=" + tags + "]";
+		return "LoginSuccessData [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", emailId=" + emailId + ", blockFlag=" + blockFlag + ", blockReason="
+				+ blockReason + ", token=" + token + ", loggedInDate=" + loggedInDate + ", tokenExpirationDate="
+				+ tokenExpirationDate + ", roles=" + roles + ", tags=" + tags + "]";
 	}
-	
-	
+
 }

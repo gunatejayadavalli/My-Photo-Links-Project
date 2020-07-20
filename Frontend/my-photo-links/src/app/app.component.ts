@@ -11,6 +11,7 @@ export class AppComponent {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    console.log('Page Refreshed')
     this.authService.autoLogin();
   }
 

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 
 export interface AuthResponseData {
   userId: number,
+  userName: string,
   firstName: string,
   lastName: string,
   email: string,
@@ -40,7 +41,7 @@ export class AuthService {
     .pipe(
       catchError(this.handleError),
       tap(resData => {
-        this.handleAuthentication(resData.userId,resData.firstName,resData.lastName,resData.email,
+        this.handleAuthentication(resData.userId,resData.userName,resData.firstName,resData.lastName,resData.email,
           resData.blockFlag,resData.blockReason,resData.token,resData.loginDate,
           resData.tokenExpirationDate,resData.roles,resData.tags)
       })
@@ -78,6 +79,7 @@ export class AuthService {
   autoLogin() {
     const userData: {
       userId: number,
+      userName: string,
       firstName: string,
       lastName: string,
       email: string,
@@ -92,13 +94,36 @@ export class AuthService {
     if (!userData) {
       return;
     }
-    const loadedUser = new User(userData.userId,userData.firstName,userData.lastName,userData.email,
+    this.handleAutoLogin(userData);
+  }
+
+  handleAutoLogin(userData : any){
+    const loadedUser = new User(userData.userId,userData.userName,userData.firstName,userData.lastName,userData.email,
       userData.blockFlag,userData.blockReason,userData._token,userData.loginDate,
       userData._tokenExpirationDate,userData.roles,userData.tags)
     if (loadedUser.token) {
-      this.user.next(loadedUser);
-      const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
-      this.autoLogout(expirationDuration);
+
+      console.log('Inside handleAutoLogin')
+
+      // this.http.get<boolean>(environment.apiUrl+'/users/'+loadedUser.userId).pipe(
+      //   catchError(this.handleError),
+      //   tap(res => {
+      //     console.log(res);
+      //   })
+      // ).subscribe(res => {
+      //   console.log(res);
+      // });
+
+
+
+
+
+
+
+
+    this.user.next(loadedUser);
+    const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+    this.autoLogout(expirationDuration);
     }
   }
 
@@ -140,6 +165,7 @@ export class AuthService {
 
   private handleAuthentication(
     userId: number,
+    userName: string,
     firstName: string,
     lastName: string,
     email: string,
@@ -151,7 +177,7 @@ export class AuthService {
     roles: Role[],
     tags: Tag[]
   ) {
-    const user = new User(userId,firstName,lastName,email,blockFlag,blockReason,token,loginDate,tokenExpirationDate,roles,tags);
+    const user = new User(userId,userName,firstName,lastName,email,blockFlag,blockReason,token,loginDate,tokenExpirationDate,roles,tags);
     this.user.next(user);
     const timeRemaining : number = new Date(tokenExpirationDate).getTime() - new Date().getTime();
     this.autoLogout(timeRemaining);
@@ -159,7 +185,7 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
+    let errorMessage = 'An unknown error occurred !!';
     if (!errorRes.error || !errorRes.error.message) {
       return throwError(errorMessage);
     }

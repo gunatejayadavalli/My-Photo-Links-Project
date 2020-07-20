@@ -19,6 +19,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthService} from './auth/auth.service';
 import {AuthInterceptorService} from './auth/auth-interceptor.service';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
+import { UserNotAllowedComponent } from './photo-links/user-not-allowed/user-not-allowed.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ForgetPasswordComponent } from './auth/forget-password/forget-password.
     HeaderComponent,
     SideNavComponent,
     WelcomeComponent,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    UserNotAllowedComponent
   ],
   imports: [
     BrowserModule,
