@@ -185,16 +185,16 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred !!';
+    let errorMessage = 'Something went wrong !';
     if (!errorRes.error || !errorRes.error.message) {
       return throwError(errorMessage);
     }
     switch (errorRes.error.message) {
       case 'USER_NOT_FOUND':
-        errorMessage = 'User doesn\'t exist !!';
+        errorMessage = 'User doesn\'t exist !';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'Password is incorrect !!';
+        errorMessage = 'Password is incorrect !';
         break;
     }
     return throwError(errorMessage);

@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "users")
 @SqlResultSetMapping(
-	    name = "photoLinksByUserNameDataMapping",
+	    name = "photoLinksDataMapping",
 	    classes = @ConstructorResult(
 	            targetClass = PhotoLink.class,
 	            columns = {
@@ -27,9 +27,19 @@ import java.util.Date;
 				"inner join photolinks_tags plt on plt.event_id = pl.event_id " + 
 				"inner join users_tags ut on ut.tag_id = plt.tag_id " + 
 				"inner join users u on u.user_id = ut.user_id " + 
-				"where u.username = ?1 order by pl.from_date desc", 
+				"where u.username = ?1 order by pl.to_date desc", 
 		resultClass = PhotoLink.class, 
-		resultSetMapping = "photoLinksByUserNameDataMapping"
+		resultSetMapping = "photoLinksDataMapping"
+)
+@NamedNativeQuery(
+		name = "findUserPhotoLinksByQuery", 
+		query = "select distinct pl.event_id as eventId, pl.event as event, pl.from_date as fromDate, pl.to_date as toDate, pl.photos_link as photosLink from photo_links pl " + 
+				"inner join photolinks_tags plt on plt.event_id = pl.event_id " + 
+				"inner join users_tags ut on ut.tag_id = plt.tag_id " + 
+				"inner join users u on u.user_id = ut.user_id " + 
+				"where u.username = ?1 and lower(pl.event) like ?2 and pl.from_date>=?3 and pl.to_date<=?4 order by pl.to_date desc", 
+		resultClass = PhotoLink.class, 
+		resultSetMapping = "photoLinksDataMapping"
 )
 public class User {
 

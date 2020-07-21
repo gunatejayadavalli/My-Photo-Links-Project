@@ -1,1 +1,47 @@
-<p>search-by-query works!</p>
+<section>
+    <br>
+    <mat-card fxLayout="column" fxLayoutAlign="center center">
+    
+      <mat-card-content>
+    
+        <form fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" [formGroup]="searchForm">
+    
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>Keyword</mat-label>
+            <input type="text" matInput placeholder="Search keyword" formControlName="keyword">
+          </mat-form-field>
+
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>From date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="fromDate" [max]="maxDate" [min]="minDate" (click)="picker1.open()">
+            <mat-error *ngIf="searchForm.controls.fromDate.hasError('matDatepickerMax')">From date cannot be greater than today's date</mat-error>
+            <mat-error *ngIf="searchForm.controls.fromDate.hasError('matDatepickerMin')">From date cannot be lesser than Jan 1st 1970</mat-error>
+            <mat-error *ngIf="searchForm.controls.fromDate.hasError('matDatepickerParse')">Invalid date</mat-error>
+            <mat-error *ngIf="searchForm.controls.fromDate.hasError('fromDateGreater')">From date is greater than to date</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker1 disabled="false"></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>To date</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="toDate" [max]="maxDate" [min]="minDate" (click)="picker2.open()">
+            <mat-error *ngIf="searchForm.controls.toDate.hasError('matDatepickerMax')">To date cannot be greater than today's date</mat-error>
+            <mat-error *ngIf="searchForm.controls.toDate.hasError('matDatepickerMin')">To date cannot be lesser than Jan 1st 1970</mat-error>
+            <mat-error *ngIf="searchForm.controls.toDate.hasError('matDatepickerParse')">Invalid date</mat-error>
+            <mat-error *ngIf="searchForm.controls.toDate.hasError('fromDateGreater')">To date is lesser than from date</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker2 disabled="false"></mat-datepicker>
+          </mat-form-field>
+    
+        </form>
+    
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button  mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="searchForm.invalid">Submit</button>
+      </mat-card-actions>
+    
+    </mat-card>
+
+</section>
+    

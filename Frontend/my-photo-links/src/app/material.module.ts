@@ -8,9 +8,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -23,9 +24,10 @@ import {MatCardModule} from '@angular/material/card';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     MatStepperModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatSidenavModule,
@@ -37,9 +39,10 @@ import {MatCardModule} from '@angular/material/card';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     MatStepperModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class MaterialModule { }

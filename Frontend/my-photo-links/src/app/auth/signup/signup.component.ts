@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit,OnDestroy {
   isLoading= false;
   allSubs: Subscription[] = [];
 
-  constructor(private authService : AuthService, private router : Router, private snackBar: MatSnackBar) {}
+  constructor(private authService : AuthService, private router : Router) {}
 
   ngOnInit() {
 
@@ -61,9 +61,14 @@ export class SignupComponent implements OnInit,OnDestroy {
     },
     errorMessage => {
       this.isUsernameValidating = false;
-      this.snackBar.open(errorMessage, null, {
-        duration: 2000
-      })
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: errorMessage,
+        showClass: {
+          popup: 'animate__animated animate__shakeX'
+        }
+      });
     }));
   }
 
@@ -96,16 +101,27 @@ export class SignupComponent implements OnInit,OnDestroy {
     ).subscribe(
       resData => {
         this.isLoading = false;
-        this.snackBar.open('Registration Success. Please Login', null, {
-          duration: 2000
-        })
-        this.router.navigate(['/login']);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Registration success. Please login !',
+          showClass: {
+            popup: 'animate__animated animate__flip'
+          }
+        }).then((result) => {
+          this.router.navigate(['/login']);
+        });
       },
       errorMessage => {
         this.isLoading = false;
-        this.snackBar.open(errorMessage, null, {
-          duration: 2000
-        })
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: errorMessage,
+          showClass: {
+            popup: 'animate__animated animate__shakeX'
+          }
+        });
       }
     ));
 

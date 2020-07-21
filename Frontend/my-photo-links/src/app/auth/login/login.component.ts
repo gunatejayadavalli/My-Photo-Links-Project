@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService, AuthResponseData } from '../auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit,OnDestroy {
   allSubs: Subscription[] = [];
 
 
-  constructor(private authservice: AuthService, private router : Router, private snackBar: MatSnackBar) { }
+  constructor(private authservice: AuthService, private router : Router) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -33,16 +33,27 @@ export class LoginComponent implements OnInit,OnDestroy {
     this.allSubs.push(authObs.subscribe(
       resData => {
         this.isLoading = false;
-        this.snackBar.open('Login Success !!', null, {
-          duration: 2000
-        })
-        this.router.navigate(['/photoLinks']);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Login success !',
+          showClass: {
+            popup: 'animate__animated animate__flip'
+          }
+        }).then((result) => {
+          this.router.navigate(['/photoLinks']);
+        });
       },
       errorMessage => {
         this.isLoading = false;
-        this.snackBar.open(errorMessage, null, {
-          duration: 2000
-        })
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: errorMessage,
+          showClass: {
+            popup: 'animate__animated animate__shakeX'
+          }
+        });
       }
     ));
   }

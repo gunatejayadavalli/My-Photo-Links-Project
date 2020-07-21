@@ -63,12 +63,6 @@ public class AuthController {
 		}
 	}
 	
-	@GetMapping("/users/{userName}/photoLinks")
-	public List<PhotoLink> findPhotoLinksByUsername(@PathVariable String userName) {
-		userName = userName.toLowerCase();
-		return userRepository.findPhotoLinksByUserName(userName);
-	}
-	
 	@GetMapping("/checkUserNameExist/{userName}")
 	public boolean checkUserNameExist(@PathVariable String userName) {
 		userName = userName.toLowerCase();
