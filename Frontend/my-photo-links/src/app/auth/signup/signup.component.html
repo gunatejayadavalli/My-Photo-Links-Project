@@ -80,7 +80,7 @@
           <ng-template matStepLabel>Password recovery</ng-template>
           <mat-form-field appearance="outline">
             <mat-label>Security Question</mat-label>
-            <input type="text" #ques matInput placeholder="Your security question" formControlName="secQues">
+            <input type="text" #ques matInput placeholder="Ex: What is your best friend name?" formControlName="secQues">
             <mat-hint>Must be min 5 and max 50 characters long</mat-hint>
             <mat-hint align="end">{{ques.value?.length || 0}}/50</mat-hint>
             <mat-error>Must be min 5 and max 50 characters long</mat-error>

@@ -12,6 +12,9 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -27,7 +30,10 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatStepperModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule,
+    MatExpansionModule,
+    MatChipsModule
   ],
   exports: [
     MatSidenavModule,
@@ -42,7 +48,10 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatStepperModule,
     MatCardModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule,
+    MatExpansionModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule { }

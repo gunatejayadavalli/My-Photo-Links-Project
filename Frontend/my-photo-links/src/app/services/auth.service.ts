@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
-import { User } from './user.model';
-import { Role } from './role.model';
-import { Tag } from './tag.model';
+import { User } from '../models/user.model';
+import {AuthData} from '../models/authData.model';
+import { Role } from '../models/role.model';
+import { Tag } from '../models/tag.model';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 export interface AuthResponseData {
   userId: number,
@@ -27,6 +29,7 @@ export interface AuthResponseData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
+  isAuth = new BehaviorSubject<boolean>(false);
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -67,9 +70,10 @@ export class AuthService {
   }
 
   logout() {
+    this.isAuth.next(false);
     this.user.next(null);
     this.router.navigate(['/login']);
-    localStorage.removeItem('userData');
+    localStorage.removeItem('authData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -77,59 +81,53 @@ export class AuthService {
   }
 
   autoLogin() {
-    const userData: {
+    const authData: {
       userId: number,
       userName: string,
-      firstName: string,
-      lastName: string,
-      email: string,
-      blockFlag: string,
-      blockReason: string,
       _token: string,
       loginDate: Date,
-      _tokenExpirationDate: Date,
-      roles: Role[],
-      tags: Tag[]
-    } = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
+      _tokenExpirationDate: Date
+    } = JSON.parse(localStorage.getItem('authData'));
+    if (!authData) {
       return;
+    }else{
+      if (authData._token) {
+        this.isAuth.next(true);
+      }
     }
-    this.handleAutoLogin(userData);
   }
 
-  handleAutoLogin(userData : any){
-    const loadedUser = new User(userData.userId,userData.userName,userData.firstName,userData.lastName,userData.email,
-      userData.blockFlag,userData.blockReason,userData._token,userData.loginDate,
-      userData._tokenExpirationDate,userData.roles,userData.tags)
-    if (loadedUser.token) {
-
-      console.log('Inside handleAutoLogin')
-
-      // this.http.get<boolean>(environment.apiUrl+'/users/'+loadedUser.userId).pipe(
-      //   catchError(this.handleError),
-      //   tap(res => {
-      //     console.log(res);
-      //   })
-      // ).subscribe(res => {
-      //   console.log(res);
-      // });
-
-
-
-
-
-
-
-
-    this.user.next(loadedUser);
-    const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
-    this.autoLogout(expirationDuration);
+  refreshUser() {
+    const authData: {
+      userId: number,
+      userName: string,
+      _token: string,
+      loginDate: Date,
+      _tokenExpirationDate: Date
+    } = JSON.parse(localStorage.getItem('authData'));
+    if (authData._token) {
+      return this.http.get<AuthResponseData>(environment.apiUrl+'/refreshUser/'+authData.userName).pipe(
+        catchError(this.handleError),
+        tap(userDetails => {
+        this.handleAuthentication(userDetails.userId,userDetails.userName,userDetails.firstName,userDetails.lastName,userDetails.email,
+          userDetails.blockFlag,userDetails.blockReason,authData._token,authData.loginDate,
+          authData._tokenExpirationDate,userDetails.roles,userDetails.tags)
+      }));
     }
   }
 
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      this.logout();
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Token expired. Please login again !',
+        showClass: {
+          popup: 'animate__animated animate__rubberBand'
+        }
+      }).then((result) => {
+        this.logout();
+      });
     }, expirationDuration);
   }  
 
@@ -177,11 +175,13 @@ export class AuthService {
     roles: Role[],
     tags: Tag[]
   ) {
-    const user = new User(userId,userName,firstName,lastName,email,blockFlag,blockReason,token,loginDate,tokenExpirationDate,roles,tags);
+    const user = new User(userId,userName,firstName,lastName,email,blockFlag,blockReason,roles,tags);
+    const authData = new AuthData(userId,userName,token,loginDate,tokenExpirationDate);
+    this.isAuth.next(true);
     this.user.next(user);
     const timeRemaining : number = new Date(tokenExpirationDate).getTime() - new Date().getTime();
     this.autoLogout(timeRemaining);
-    localStorage.setItem('userData', JSON.stringify(user));
+    localStorage.setItem('authData', JSON.stringify(authData));
   }
 
   private handleError(errorRes: HttpErrorResponse) {

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,6 +26,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tags")
+@SqlResultSetMapping(
+	    name = "tagsDataMapping",
+	    classes = @ConstructorResult(
+	            targetClass = Tag.class,
+	            columns = {
+	            		@ColumnResult(name = "tagId"),
+	                    @ColumnResult(name = "tagName")
+	            }
+	    )
+)
+@NamedNativeQuery(
+		name = "findTagsByEventId", 
+		query = "select t.tag_id as tagId, t.tag_name as tagName from photolinks_tags plt inner join tags t on plt.tag_id = t.tag_id where plt.event_id=?1", 
+		resultClass = Tag.class, 
+		resultSetMapping = "tagsDataMapping"
+)
 public class Tag {
 	
 	@Id
@@ -53,6 +75,7 @@ public class Tag {
 	joinColumns = {@JoinColumn(name = "tag_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "event_id")})
 	@JsonIgnore
+	@Transient
 	private Collection<PhotoLink> photoLinks;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -60,10 +83,19 @@ public class Tag {
 	joinColumns = {@JoinColumn(name = "tag_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "user_id")})
 	@JsonIgnore
+	@Transient
 	private Collection<User> users;
 	
 	public Tag() {
 	}
+	
+
+	public Tag(int tagId, String tagName) {
+		this.tagId = tagId;
+		this.tagName = tagName;
+	}
+
+
 
 	public Tag(String tagName, Date creationTime, String createdBy, Date updationTime, String updatedBy) {
 		this.tagName = tagName;

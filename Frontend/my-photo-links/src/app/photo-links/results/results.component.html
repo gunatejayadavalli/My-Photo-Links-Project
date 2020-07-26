@@ -1,1 +1,26 @@
-<p>results works!</p>
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="photoLinkResults && resultMode && !editMode">
+<br>
+<mat-accordion>
+
+    <mat-expansion-panel *ngFor="let photoLink of photoLinkResults">
+        <mat-expansion-panel-header>
+        <mat-panel-title>
+            <div>
+                <!-- <div class="event-title"><b>{{(photoLink.event.length>21) ? (photoLink.event | slice:0:21)+'..':(photoLink.event) }}</b></div> -->
+                <div class="event-title"><b>{{photoLink.event}}</b></div>
+                <div class="event-date">{{photoLink.fromDate | date:'mediumDate'}} - {{photoLink.toDate | date:'mediumDate'}}</div>
+            </div>
+        </mat-panel-title>
+        </mat-expansion-panel-header>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="25px">
+                <a mat-icon-button [href]="photoLink.photosLink" target="_blank" color="primary"><mat-icon>launch</mat-icon></a>
+                <a *ngIf="isSuperAdmin||isAdmin" mat-icon-button (click)="OnEdit(photoLink)" color="accent"><mat-icon>edit</mat-icon></a>
+                <a *ngIf="isSuperAdmin||isAdmin" mat-icon-button (click)="OnDelete(photoLink)" color="warn"><mat-icon>delete</mat-icon></a>
+                <a mat-icon-button (click)="shareLink(photoLink)" data-action="share/whatsapp/share" target="_blank" color="primary"><mat-icon>share</mat-icon></a>
+            </div>
+    </mat-expansion-panel>
+
+</mat-accordion>
+</section>
+<app-edit-photo-link *ngIf="editMode"></app-edit-photo-link>
+

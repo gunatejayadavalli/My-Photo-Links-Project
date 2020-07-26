@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,11 +19,14 @@ export class SideNavComponent implements OnInit, OnDestroy {
     if(this.userSub){
       this.userSub.unsubscribe();
     }
+    if(localStorage.getItem('authData')){
+      this.isAuthenticated = true;
+    }
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe(user => {
-      this.isAuthenticated = !!user;
+    this.userSub = this.authService.isAuth.subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
     });
   }
 

@@ -1,14 +1,13 @@
-<div *ngIf="!userNotAllowedReason">
-<mat-tab-group *ngIf="!resultsMode">
-  <mat-tab label="Search by Query">
-      <app-search-by-query></app-search-by-query>
+<div *ngIf="!userNotAllowed">
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Search photo link">
+    <app-search-by-query></app-search-by-query>
   </mat-tab>
-  <mat-tab label="Search by Tag">
-    <app-search-by-tag></app-search-by-tag>
+  <mat-tab label="Add photo link" *ngIf="isSuperAdmin||isAdmin">
+    <app-add-photo-link></app-add-photo-link>
   </mat-tab>
 </mat-tab-group>
-<app-results *ngIf="resultsMode"></app-results>
 </div>
-<div *ngIf="userNotAllowedReason">
+<div *ngIf="userNotAllowed">
 <app-user-not-allowed></app-user-not-allowed>
 </div>

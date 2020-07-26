@@ -1,0 +1,17 @@
+mat-accordion{
+    width: 90%;
+    max-width: 600px;
+}
+
+.event-title{
+    font-size: medium;
+    overflow: hidden;
+}
+
+.event-date{
+    font-size: x-small;
+}
+
+mat-expansion-panel{
+    margin-bottom: 6px;
+}

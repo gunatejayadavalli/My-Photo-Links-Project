@@ -1,0 +1,70 @@
+<section>
+    <br>
+    <mat-card fxLayout="column" fxLayoutAlign="center center">
+    
+      <mat-card-content>
+    
+        <form fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" [formGroup]="editForm">
+
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>Event</mat-label>
+            <input type="text" #event matInput placeholder="Enter event name" formControlName="event">
+            <mat-hint>Must be min 5 and max 35 characters long</mat-hint>
+            <mat-hint align="end">{{event.value?.length || 0}}/35</mat-hint>
+            <mat-error>Must be min 5 and max 35 characters long</mat-error>
+          </mat-form-field>
+
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>Event from and to dates</mat-label>
+            <mat-date-range-input [rangePicker]="picker" (click)="picker.open()" [max]="maxDate" [min]="minDate">
+              <input matStartDate formControlName="fromDate">
+              <input matEndDate formControlName="toDate">
+            </mat-date-range-input>
+            <mat-error *ngIf="editForm.controls.fromDate.touched && editForm.controls.toDate.touched && editForm.controls.fromDate.hasError('required') || editForm.controls.toDate.hasError('required')">Missing from/to date</mat-error>
+            <mat-error *ngIf="editForm.controls.fromDate.hasError('matDatepickerMax') || editForm.controls.toDate.hasError('matDatepickerMax')">From/to date cannot be greater than today's date</mat-error>
+            <mat-error *ngIf="editForm.controls.fromDate.hasError('matDatepickerMin') || editForm.controls.toDate.hasError('matDatepickerMin')">From/to date cannot be lesser than Jan 1st 1970</mat-error>
+            <mat-error *ngIf="editForm.controls.fromDate.hasError('matDatepickerParse') || editForm.controls.toDate.hasError('matDatepickerParse')">Invalid from/to date</mat-error>
+            <mat-error *ngIf="editForm.controls.fromDate.hasError('fromDateGreater') || editForm.controls.toDate.hasError('fromDateGreater')">From date is greater than to date</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker touchUi #picker disabled="false"></mat-date-range-picker>
+          </mat-form-field>
+
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>Photo link</mat-label>
+            <input type="text" #event matInput placeholder="Enter photo link" formControlName="photoLink">
+            <mat-hint>Copy and paste the photo link</mat-hint>
+            <mat-error>Missing photo link</mat-error>
+          </mat-form-field>
+
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>Tags</mat-label>
+
+            <mat-select formControlName="tags" multiple>
+          
+              <mat-select-trigger>
+                <mat-chip-list>
+                  <mat-chip *ngFor="let tag of editForm.value.tags" [removable]="true" (removed)="OnTagRemoved(tag)">
+                    {{ tag.tagName }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </mat-select-trigger>
+          
+              <mat-option *ngFor="let tag of tagsList" [value]="tag">{{tag.tagName}}</mat-option>
+          
+            </mat-select>
+
+            <mat-error>Atleast 1 tag is required</mat-error>
+          </mat-form-field>
+
+        </form>
+    
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button  mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="editForm.invalid">Save</button>
+      </mat-card-actions>
+    
+    </mat-card>
+
+</section>

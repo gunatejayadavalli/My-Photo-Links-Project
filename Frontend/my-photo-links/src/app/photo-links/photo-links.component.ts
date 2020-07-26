@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { User } from '../auth/user.model';
-import { take, exhaustMap } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
+import { User } from '../models/user.model';
 import { Subscription } from 'rxjs';
+import { PhotoLinksService } from '../services/photo-links.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-photo-links',
@@ -11,25 +12,35 @@ import { Subscription } from 'rxjs';
 })
 export class PhotoLinksComponent implements OnInit,OnDestroy {
 
-  resultsMode = false;
   loggedInUser: User;
-  userNotAllowedReason = null;
+  userNotAllowed = null;
   allSubs: Subscription[] = [];
-
-  constructor(private authService : AuthService) { }
+  isSuperAdmin = false;
+  isAdmin = false;
+  
+  constructor(private authService : AuthService, private photoLinksService : PhotoLinksService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
 
-    this.allSubs.push(this.authService.user.pipe(take(1)).subscribe(user => {
-      this.loggedInUser = user;
+    this.allSubs.push(this.route.data.subscribe(data => {
+      this.loggedInUser = data.user;
+      data.user.roles.forEach(role => {
+        if(role.roleName === 'ROLE_SUPERADMIN'){
+          this.isSuperAdmin = true;
+        }
+        if(role.roleName === 'ROLE_ADMIN'){
+          this.isAdmin = true;
+        }
+      })
+      this.authService.user.next(this.loggedInUser);
+        if(this.loggedInUser.blockFlag==='Y'){
+          this.userNotAllowed = 'BLOCKED';
+        }else if (this.loggedInUser.tags.length===0){
+          this.userNotAllowed = 'NO_TAGS';
+        }else{
+          this.userNotAllowed = null;
+        }
     }));
-    if(this.loggedInUser.blockFlag==='Y'){
-      this.userNotAllowedReason = 'BLOCKED';
-    }else if (this.loggedInUser.tags.length===0){
-      this.userNotAllowedReason = 'NO_TAGS';
-    }else{
-      this.userNotAllowedReason = null;
-    }
 
   }
 

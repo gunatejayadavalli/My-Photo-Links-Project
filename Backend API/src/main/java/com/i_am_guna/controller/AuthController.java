@@ -1,11 +1,10 @@
 package com.i_am_guna.controller;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.i_am_guna.entity.AuthRequest;
 import com.i_am_guna.entity.LoginSuccessData;
-import com.i_am_guna.entity.PhotoLink;
 import com.i_am_guna.entity.Role;
 import com.i_am_guna.entity.User;
 import com.i_am_guna.repository.RoleRepository;
@@ -21,7 +19,6 @@ import com.i_am_guna.repository.UserRepository;
 import com.i_am_guna.service.CustomUserDetailsService;
 import com.i_am_guna.util.JwtUtil;
 
-@CrossOrigin
 @RestController
 public class AuthController {
 	
@@ -63,6 +60,15 @@ public class AuthController {
 		}
 	}
 	
+	@GetMapping("/refreshUser/{userName}")
+	public LoginSuccessData refreshUser(@PathVariable String userName) {
+		LoginSuccessData loginSuccessData = null;
+		if(userRepository.checkUserNameExist(userName)>0) {
+			return userDetailsService.getUserDetails(userName);
+		}
+		return loginSuccessData;
+	}
+	
 	@GetMapping("/checkUserNameExist/{userName}")
 	public boolean checkUserNameExist(@PathVariable String userName) {
 		userName = userName.toLowerCase();
@@ -97,11 +103,11 @@ public class AuthController {
 	@PostMapping("/resetPassword")
 	public int resetPassword(@RequestBody User user) {
 		user.setUserName(user.getUserName().toLowerCase());
-		return userRepository.updatePassword(passwordEncoder.encode(user.getPassword()),user.getUserName());
+		return userRepository.updatePassword(passwordEncoder.encode(user.getPassword()),new Date(),user.getUserName());
 	}
 	
 	@PostMapping("/registerUser")
-	public User checkUserNameExist(@RequestBody User user) throws Exception {
+	public User checkUserNameExist(@RequestBody User user){
 		user.setUserName(user.getUserName().toLowerCase());
 		Role role = roleRepository.findByRoleName("ROLE_USER");
 		user.setUserName(user.getUserName());

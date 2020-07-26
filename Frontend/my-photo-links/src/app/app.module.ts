@@ -8,7 +8,6 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import { PhotoLinksComponent } from './photo-links/photo-links.component';
 import { SearchByQueryComponent } from './photo-links/search-by-query/search-by-query.component';
-import { SearchByTagComponent } from './photo-links/search-by-tag/search-by-tag.component';
 import { ResultsComponent } from './photo-links/results/results.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
@@ -16,10 +15,14 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {AuthService} from './auth/auth.service';
-import {AuthInterceptorService} from './auth/auth-interceptor.service';
+import {AuthService} from './services/auth.service';
+import {AuthInterceptorService} from './services/auth-interceptor.service';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { UserNotAllowedComponent } from './photo-links/user-not-allowed/user-not-allowed.component';
+import {PhotoLinksService} from './services/photo-links.service';
+import { DatePipe } from '@angular/common';
+import { AddPhotoLinkComponent } from './photo-links/add-photo-link/add-photo-link.component';
+import { EditPhotoLinkComponent } from './photo-links/edit-photo-link/edit-photo-link.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +31,14 @@ import { UserNotAllowedComponent } from './photo-links/user-not-allowed/user-not
     LoginComponent,
     PhotoLinksComponent,
     SearchByQueryComponent,
-    SearchByTagComponent,
     ResultsComponent,
     HeaderComponent,
     SideNavComponent,
     WelcomeComponent,
     ForgetPasswordComponent,
-    UserNotAllowedComponent
+    UserNotAllowedComponent,
+    AddPhotoLinkComponent,
+    EditPhotoLinkComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,9 @@ import { UserNotAllowedComponent } from './photo-links/user-not-allowed/user-not
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
-    }
+    },
+    PhotoLinksService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

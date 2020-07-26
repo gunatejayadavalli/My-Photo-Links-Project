@@ -6,15 +6,17 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { PhotoLinksComponent } from './photo-links/photo-links.component';
 import {AuthGuard} from './auth/auth.guard';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
-import {AuthInGuard} from './auth/authIn.guard';
-
+import { ResultsComponent } from './photo-links/results/results.component';
+import {UserResolver} from './services/user-resolver.service';
 
 const routes: Routes = [
   {path:'', component: WelcomeComponent},
-  {path:'login', component: LoginComponent, canActivate: [AuthInGuard]},
-  {path:'signup', component: SignupComponent, canActivate: [AuthInGuard]},
-  {path:'resetPwd', component: ForgetPasswordComponent, canActivate: [AuthInGuard]},
-  {path:'photoLinks', component: PhotoLinksComponent, canActivate: [AuthGuard]},
+  {path:'login', component: LoginComponent, canActivate: [AuthGuard]},
+  {path:'signup', component: SignupComponent, canActivate: [AuthGuard]},
+  {path:'resetPwd', component: ForgetPasswordComponent, canActivate: [AuthGuard]},
+  {path:'photoLinks', component: PhotoLinksComponent, canActivate: [AuthGuard], resolve : {user : UserResolver}},
+  {path:'results', component: ResultsComponent, canActivate: [AuthGuard]},
+  {path: '**', redirectTo: '/photoLinks'}
 ];
 
 @NgModule({

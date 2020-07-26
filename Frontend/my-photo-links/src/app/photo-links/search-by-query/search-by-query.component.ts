@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { PhotoLinksService } from '../../services/photo-links.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/services/auth.service';
+import { Tag } from '../../models/tag.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-by-query',
@@ -11,8 +18,12 @@ export class SearchByQueryComponent implements OnInit {
   searchForm: FormGroup;
   maxDate;
   minDate;
+  allSubs: Subscription[] = [];
+  searching = false;
+  userTags: Tag[] = [new Tag(0,'All')];
+  selected : number;
 
-  constructor() { }
+  constructor(private authService: AuthService, private photoLinksService : PhotoLinksService, private router : Router) { }
 
   ngOnInit(): void {
 
@@ -35,18 +46,74 @@ export class SearchByQueryComponent implements OnInit {
     };
 
     this.searchForm = new FormGroup({
-      keyword : new FormControl(null),
+      keyword : new FormControl(''),
       fromDate : new FormControl(),
       toDate : new FormControl(),
+      selectedTag : new FormControl()
     },{
       validators: groupValidator
     });
-    this.maxDate = new Date();
-    this.minDate = new Date('1970-01-01T00:00:00');
+
+    this.allSubs.push(this.authService.user.pipe(take(1)).subscribe(user => {
+      this.userTags.push(...user.tags);
+      this.maxDate = new Date();
+      this.minDate = new Date('1970-01-01T00:00:00');
+      this.selected = this.userTags[0].tagId;
+      }
+    ));
+
   }
 
   OnSubmit(){
-    console.log(this.searchForm);
+    this.searching = true;
+    if(this.searchForm.value.fromDate===null){
+      this.searchForm.patchValue({
+        fromDate : this.minDate
+      })
+    }
+    if(this.searchForm.value.toDate===null){
+      this.searchForm.patchValue({
+        toDate : this.maxDate
+      })
+    }
+    this.allSubs.push(this.photoLinksService.getPhotoLinks(
+      this.searchForm.value.keyword,
+      this.searchForm.value.fromDate,
+      this.searchForm.value.toDate,
+      this.searchForm.value.selectedTag).subscribe(
+        results => {
+          this.searching = false;
+          if(results.length>0){
+            this.photoLinksService.resultsMode.next(true);
+            this.photoLinksService.editMode.next(false);
+            this.photoLinksService.photoLinks.next(results);
+            this.router.navigate(['/results']);
+          }else{
+            this.photoLinksService.resultsMode.next(false);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'No results found !',
+              showClass: {
+                popup: 'animate__animated animate__shakeX'
+              }
+            });
+          }
+        },
+        errorMessage => {
+          this.photoLinksService.resultsMode.next(false);
+          this.searching = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: errorMessage,
+            showClass: {
+              popup: 'animate__animated animate__shakeX'
+            }
+          });
+        }
+      )
+    );
   }
 
 }

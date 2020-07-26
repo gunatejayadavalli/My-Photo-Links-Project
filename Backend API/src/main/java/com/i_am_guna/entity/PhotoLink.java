@@ -1,5 +1,6 @@
 package com.i_am_guna.entity;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -13,8 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "photo_links")
@@ -56,6 +63,9 @@ public class PhotoLink {
 	joinColumns = {@JoinColumn(name = "event_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "tag_id")})
 	private Collection<Tag> tags;
+	
+	@Transient
+	private int tagids[];
 
 	public PhotoLink() {
 	}
@@ -81,12 +91,18 @@ public class PhotoLink {
 		this.updatedBy = updatedBy;
 	}
 
-	public PhotoLink(int eventId, String event, Date fromDate, Date toDate, String photosLink) {
+
+	public PhotoLink(int eventId, String event, Date fromDate, Date toDate, String photosLink, Date creationTime,
+			String createdBy, Date updationTime, String updatedBy) {
 		this.eventId = eventId;
 		this.event = event;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.photosLink = photosLink;
+		this.creationTime = creationTime;
+		this.createdBy = createdBy;
+		this.updationTime = updationTime;
+		this.updatedBy = updatedBy;
 	}
 
 	public int getEventId() {
@@ -169,11 +185,22 @@ public class PhotoLink {
 		this.tags = tags;
 	}
 
+	public int[] getTagids() {
+		return tagids;
+	}
+
+	public void setTagids(int[] tagids) {
+		this.tagids = tagids;
+	}
+
 	@Override
 	public String toString() {
 		return "PhotoLink [eventId=" + eventId + ", event=" + event + ", fromDate=" + fromDate + ", toDate=" + toDate
 				+ ", photosLink=" + photosLink + ", creationTime=" + creationTime + ", createdBy=" + createdBy
-				+ ", updationTime=" + updationTime + ", updatedBy=" + updatedBy + ", tags=" + tags + "]";
+				+ ", updationTime=" + updationTime + ", updatedBy=" + updatedBy + ", tags=" + tags + ", tagids="
+				+ Arrays.toString(tagids) + "]";
 	}
+
+	
 
 }
