@@ -183,4 +183,11 @@ export class EditPhotoLinkComponent implements OnInit {
     );
   }
 
+  OnBackToResults(){
+    console.log('Inside this');
+    this.photoLinksService.editMode.next(false);
+    this.photoLinksService.editingPhotoLink.next(null);
+    this.router.navigate(['/results']);
+  }
+
 }

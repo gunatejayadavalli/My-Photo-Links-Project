@@ -29,28 +29,27 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.allSubs.push(this.authService.user.pipe(take(1)).subscribe(user => {
-      if(user){
-        this.loggedInUser = user;
-      user.tags.forEach(tag => {
-        this.userTags.push(tag.tagId);
-      });
-      user.roles.forEach(role => {
-        if(role.roleName === 'ROLE_SUPERADMIN'){
-          this.isSuperAdmin = true;
-        }
-        if(role.roleName === 'ROLE_ADMIN'){
-          this.isAdmin = true;
-        }
-      })
-      }
-      }
-    ));
-
     this.allSubs.push(
       this.photoLinksService.resultsMode.subscribe(resultMode => {
         if(resultMode){
           this.resultMode = true;
+          this.allSubs.push(this.authService.user.pipe(take(1)).subscribe(user => {
+            if(user){
+              this.loggedInUser = user;
+            user.tags.forEach(tag => {
+              this.userTags.push(tag.tagId);
+            });
+            user.roles.forEach(role => {
+              if(role.roleName === 'ROLE_SUPERADMIN'){
+                this.isSuperAdmin = true;
+              }
+              if(role.roleName === 'ROLE_ADMIN'){
+                this.isAdmin = true;
+              }
+            })
+            }
+            }
+          ));
           this.allSubs.push(this.photoLinksService.photoLinks.subscribe(photoLinks => {
             this.photoLinkResults = photoLinks;
           }));
@@ -89,6 +88,16 @@ export class ResultsComponent implements OnInit {
     }
   }
 
+  checkCanModify(photoLink : PhotoLink){
+    let canModify = true;
+    photoLink.tags.forEach(tag => {
+      if(this.userTags.indexOf(tag.tagId)==-1){
+        canModify = false;
+      }
+    });
+    return canModify;
+  }
+
   OnDelete(photoLink : PhotoLink){
     let canBeDeleted = true;
     photoLink.tags.forEach(tag => {
@@ -113,10 +122,14 @@ export class ResultsComponent implements OnInit {
               icon: 'success',
               title: 'Success',
               text: "Photo link deleted Successfully !"
-            });
-            const index = this.photoLinkResults.indexOf(photoLink);
+            }).then(result => {
+              const index = this.photoLinkResults.indexOf(photoLink);
             this.photoLinkResults.splice(index,1);
             this.photoLinksService.photoLinks.next(this.photoLinkResults);
+            if(this.photoLinkResults.length==0){
+              this.router.navigate(['/photoLinks']);
+            }
+            })
           },
           errorMessage => {
             Swal.fire({

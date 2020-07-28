@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     return this.authService.isAuth.pipe(
       take(1),
       map(isAuth => {
-        if(router.url==='/photoLinks' || router.url==='/results'){
+        if(router.url==='/photoLinks' || router.url==='/results' || router.url==='/manageUsers' || router.url==='/myProfile'){
           if (isAuth) {
             return true;
           }

@@ -1,8 +1,6 @@
 package com.i_am_guna.controller;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ import com.i_am_guna.repository.TagsRepository;
 import com.i_am_guna.repository.UserRepository;
 
 @RestController
-public class MainController {
+public class PhotoLinksController {
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -63,6 +61,11 @@ public class MainController {
 		}
 		photoLink.setTags(tags);
 		photoLinksRepository.save(photoLink);
+	}
+	
+	@GetMapping("/getAllPhotos")
+	public List<PhotoLink> getAllPhotos(){
+		return photoLinksRepository.findAll();
 	}
 	
 }

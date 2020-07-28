@@ -15,6 +15,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -33,7 +35,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatNativeDateModule,
     MatSelectModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule,
+    MatDividerModule
   ],
   exports: [
     MatSidenavModule,
@@ -51,7 +55,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatNativeDateModule,
     MatSelectModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule,
+    MatDividerModule
   ]
 })
 export class MaterialModule { }

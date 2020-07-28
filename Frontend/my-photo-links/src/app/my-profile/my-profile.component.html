@@ -1,0 +1,76 @@
+<section>
+    <br>
+    <mat-card  fxLayout="column" fxLayoutAlign="center center">
+
+      <mat-card-header>
+        <mat-card-title>My Profile</mat-card-title>
+      </mat-card-header>
+    
+      <mat-card-content>
+    
+        <form fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" [formGroup]="userFormGroup">
+
+
+            <mat-form-field appearance="standard">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput placeholder="Your first name" formControlName="firstName">
+                <mat-error>Missing first name</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="standard">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput placeholder="Your last name" formControlName="lastName">
+                <mat-error>Missing last name</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="standard">
+                <mat-label>Email ID</mat-label>
+                <input type="email" matInput placeholder="Your email id" formControlName="email">
+                <mat-error>Missing/invalid email id</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="standard">
+                <mat-label>Security Question</mat-label>
+                <input type="text" #ques matInput placeholder="Ex: What is your best friend name?" formControlName="secQues">
+                <mat-hint>Must be min 5 and max 50 characters long</mat-hint>
+                <mat-hint align="end">{{ques.value?.length || 0}}/50</mat-hint>
+                <mat-error>Must be min 5 and max 50 characters long</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="standard">
+                <mat-label>Answer</mat-label>
+                <input type="text" matInput placeholder="Your answer" formControlName="answer">
+                <mat-error>Missing answer</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="standard" *ngIf="editProfile && editPassword">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput placeholder="Enter password" formControlName="password">
+                <mat-hint>Must be min 8 charaters long</mat-hint>
+                <mat-error>Must be min 8 charaters long</mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="standard" *ngIf="editProfile && editPassword">
+                <mat-label>Confirm Password</mat-label>
+                <input type="password" matInput placeholder="Re-enter password" formControlName="confirmPassword">
+                <mat-error *ngIf="userFormGroup.controls.confirmPassword.hasError('mismatch')">Passwords didn't match</mat-error>
+            </mat-form-field>
+
+            <a mat-button color="primary" *ngIf="!editProfile" (click)="onEditProfile()" >Edit your profile ?</a>
+
+        </form>
+    
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button  mat-raised-button color="primary" *ngIf="editProfile" (click)="OnSubmit()" [disabled]="userFormGroup.invalid">Save</button>
+        <button  mat-raised-button color="primary" *ngIf="editProfile" (click)="onCancelEdit()">Cancel</button>
+      </mat-card-actions>
+
+      <button  mat-button color="primary" *ngIf="editProfile && !editPassword" (click)="enableEditPassword()">Change password ?</button>
+      
+    
+    </mat-card>
+    
+    <br><br><br>
+
+</section>

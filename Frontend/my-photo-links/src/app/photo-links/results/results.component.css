@@ -5,7 +5,6 @@ mat-accordion{
 
 .event-title{
     font-size: medium;
-    overflow: hidden;
 }
 
 .event-date{
@@ -14,4 +13,16 @@ mat-accordion{
 
 mat-expansion-panel{
     margin-bottom: 6px;
+}
+
+.canModify{
+    border-left: 4px solid green;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cannotModify{
+    border-left: 4px solid red;
+    padding-left: 10px;
+    padding-right: 10px;
 }

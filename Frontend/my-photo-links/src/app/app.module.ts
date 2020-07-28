@@ -11,7 +11,6 @@ import { SearchByQueryComponent } from './photo-links/search-by-query/search-by-
 import { ResultsComponent } from './photo-links/results/results.component';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -23,6 +22,11 @@ import {PhotoLinksService} from './services/photo-links.service';
 import { DatePipe } from '@angular/common';
 import { AddPhotoLinkComponent } from './photo-links/add-photo-link/add-photo-link.component';
 import { EditPhotoLinkComponent } from './photo-links/edit-photo-link/edit-photo-link.component';
+import { ManageUsersComponent } from './superadmin/manage-users/manage-users.component';
+import {ManageUsersService} from './services/manage-users.service';
+import { FooterComponent } from './navigation/footer/footer.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import {DisableControlDirective} from './my-profile/disable-control.directive';
 
 @NgModule({
   declarations: [
@@ -34,11 +38,14 @@ import { EditPhotoLinkComponent } from './photo-links/edit-photo-link/edit-photo
     ResultsComponent,
     HeaderComponent,
     SideNavComponent,
-    WelcomeComponent,
     ForgetPasswordComponent,
     UserNotAllowedComponent,
     AddPhotoLinkComponent,
-    EditPhotoLinkComponent
+    EditPhotoLinkComponent,
+    ManageUsersComponent,
+    FooterComponent,
+    MyProfileComponent,
+    DisableControlDirective
   ],
   imports: [
     BrowserModule,
@@ -58,6 +65,7 @@ import { EditPhotoLinkComponent } from './photo-links/edit-photo-link/edit-photo
       multi: true
     },
     PhotoLinksService,
+    ManageUsersService,
     DatePipe
   ],
   bootstrap: [AppComponent]

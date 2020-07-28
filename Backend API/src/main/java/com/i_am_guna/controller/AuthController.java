@@ -86,7 +86,6 @@ public class AuthController {
 		if(userRepository.checkUserNameExist(userName)>0) {
 			returnString = userRepository.getSecQuesByUserName(userName);
 		}
-		System.out.println("returning "+returnString);
 		return returnString;
 	}
 	
@@ -106,8 +105,16 @@ public class AuthController {
 		return userRepository.updatePassword(passwordEncoder.encode(user.getPassword()),new Date(),user.getUserName());
 	}
 	
+	@GetMapping("/getSecQuesAnswer/{userName}")
+	public String getSecQuesAnswer(@PathVariable String userName) {
+		userName = userName.toLowerCase();
+		String answer ="";
+		answer = userRepository.getSecQuesAnswer(userName);
+		return answer;
+	}
+	
 	@PostMapping("/registerUser")
-	public User checkUserNameExist(@RequestBody User user){
+	public User registerUser(@RequestBody User user){
 		user.setUserName(user.getUserName().toLowerCase());
 		Role role = roleRepository.findByRoleName("ROLE_USER");
 		user.setUserName(user.getUserName());
@@ -115,6 +122,20 @@ public class AuthController {
 		user.setRoles(Arrays.asList(role));
 		userRepository.save(user);
 		return user;
+	}
+	
+	@PostMapping("/updateUserProfile")
+	public LoginSuccessData updateUserProfile(@RequestBody User user) {
+		System.out.println("User in request : "+user);
+		if(user.getPassword()!=null) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userRepository.updateUserProfileWithPassword(user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), 
+					user.getSecurityQues(), user.getSecurityAns(), new Date(), user.getUserId());
+		}else {
+			userRepository.updateUserProfileWithNoPassword(user.getFirstName(), user.getLastName(), user.getEmail(), 
+					user.getSecurityQues(), user.getSecurityAns(), new Date(), user.getUserId());
+		}
+		return userDetailsService.getUserDetails(user.getUserName());
 	}
 	
 }

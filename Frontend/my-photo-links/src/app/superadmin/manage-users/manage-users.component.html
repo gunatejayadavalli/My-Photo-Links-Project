@@ -1,0 +1,55 @@
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="isSuperAdmin">
+    <br>
+    <mat-accordion>
+    
+        <mat-expansion-panel *ngFor="let user of users">
+            <mat-expansion-panel-header [ngClass]="{
+                'admin-unblocked-tags': (ifAdmin(user) && user.blockFlag==='N' && user.tags.length>0), 
+                'admin-blocked-noTags': (ifAdmin(user) && user.blockFlag==='Y' && user.tags.length==0), 
+                'admin-unblocked-noTags': (ifAdmin(user) && user.blockFlag==='N' && user.tags.length==0), 
+                'admin-blocked-tags': (ifAdmin(user) && user.blockFlag==='Y' && user.tags.length>0),
+                'user-unblocked-tags': ((!ifAdmin(user)) && user.blockFlag==='N' && user.tags.length>0), 
+                'user-blocked-noTags': ((!ifAdmin(user)) && user.blockFlag==='Y' && user.tags.length==0), 
+                'user-unblocked-noTags': ((!ifAdmin(user)) && user.blockFlag==='N' && user.tags.length==0), 
+                'user-blocked-tags': ((!ifAdmin(user)) && user.blockFlag==='Y' && user.tags.length>0) 
+            }">
+            <mat-panel-title>
+                <div>
+                    <div class="username-title"><b>{{user.userName}}</b></div>
+                    <div class="full-name-subtitle">{{user.firstName}} {{user.lastName}}</div>
+                </div>
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="35px">
+                    <button [ngStyle]="{'color': (loggedInUser.userName==user.userName) ? 'rgba(0,0,0,.26)' : 'red'}" [disabled]="loggedInUser.userName==user.userName" mat-icon-button *ngIf="ifAdmin(user)" (click)="toggleAdminRole(user)" ><mat-icon>security</mat-icon></button>
+                    <button [ngStyle]="{'color': (loggedInUser.userName==user.userName) ? 'rgba(0,0,0,.26)' : 'green'}" [disabled]="loggedInUser.userName==user.userName" mat-icon-button *ngIf="(!ifAdmin(user))" (click)="toggleAdminRole(user)" ><mat-icon>person</mat-icon></button>
+                    <button [ngStyle]="{'color': (loggedInUser.userName==user.userName) ? 'rgba(0,0,0,.26)' : 'green'}" [disabled]="loggedInUser.userName==user.userName" mat-icon-button *ngIf="user.blockFlag==='N'" (click)="OnBlockUser(user)" ><mat-icon>report_off</mat-icon></button>
+                    <button [ngStyle]="{'color': (loggedInUser.userName==user.userName) ? 'rgba(0,0,0,.26)' : 'red'}" [disabled]="loggedInUser.userName==user.userName" mat-icon-button *ngIf="user.blockFlag==='Y'" (click)="OnUnblockUser(user)" ><mat-icon>report</mat-icon></button>
+                    <button [ngStyle]="{'color': (loggedInUser.userName==user.userName) ? 'rgba(0,0,0,.26)' : 'green'}" [disabled]="loggedInUser.userName==user.userName" mat-icon-button *ngIf="user.tags.length>0" (click)="modifyTags(user)" ><mat-icon>local_offer</mat-icon></button>
+                    <button [ngStyle]="{'color': (loggedInUser.userName==user.userName) ? 'rgba(0,0,0,.26)' : 'red'}" [disabled]="loggedInUser.userName==user.userName" mat-icon-button *ngIf="user.tags.length==0" (click)="modifyTags(user)" ><mat-icon>cancel</mat-icon></button>
+                </div>
+        </mat-expansion-panel>
+    
+    </mat-accordion>
+</section>
+
+
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="!isSuperAdmin">
+
+    <br><br><br>
+    
+    <div fxLayout="column" fxLayoutAlign="center center">
+
+
+        <h2 style="color: red;" class="animate__animated animate__bounce message"><b>THIS SCREEN IS ACCESSABLE TO SUPERADMIN ONLY</b></h2> <br><br>
+
+
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <a routerLink="photoLinks" mat-raised-button color="primary">Go Back</a>
+
+</section>
+    
+    

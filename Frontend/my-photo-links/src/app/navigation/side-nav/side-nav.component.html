@@ -3,6 +3,7 @@
     <mat-icon>face</mat-icon>
     <span class="nav-caption">Signup</span>
   </a>
+  <mat-divider *ngIf="!isAuthenticated"></mat-divider>
   <a mat-list-item routerLink="/login" (click)="OnClose()" *ngIf="!isAuthenticated">
     <mat-icon>input</mat-icon>
     <span class="nav-caption">Login</span>
@@ -11,6 +12,17 @@
     <mat-icon>perm_media</mat-icon>
     <span class="nav-caption">Photo Links</span>
   </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
+  <a mat-list-item routerLink="/myProfile" (click)="OnClose()" *ngIf="isAuthenticated">
+    <mat-icon>account_circle</mat-icon>
+    <span class="nav-caption">My Profile</span>
+  </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
+  <a mat-list-item routerLink="/manageUsers" (click)="OnClose()" *ngIf="isAuthenticated">
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span class="nav-caption">Manage Users</span>
+  </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
   <mat-list-item *ngIf="isAuthenticated">
     <button mat-icon-button (click)="OnLogout()">
       <mat-icon>eject</mat-icon>

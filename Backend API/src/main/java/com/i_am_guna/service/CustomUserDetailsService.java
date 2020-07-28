@@ -32,7 +32,7 @@ public class CustomUserDetailsService  implements UserDetailsService{
 	
 	public LoginSuccessData getUserDetails(String username) {
 		User user = userRepository.findByUserName(username);
-		return new LoginSuccessData(user.getUserId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getBlockFlag(), user.getBlockReason(), user.getRoles(), user.getTags());
+		return new LoginSuccessData(user.getUserId(), user.getUserName(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getBlockFlag(), user.getBlockReason(),user.getSecurityQues(), user.getRoles(), user.getTags());
 	}
 	
 }

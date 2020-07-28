@@ -15,9 +15,10 @@ export interface AuthResponseData {
   userName: string,
   firstName: string,
   lastName: string,
-  email: string,
+  emailId: string,
   blockFlag: string,
   blockReason: string,
+  secQues: string,
   token: string,
   loginDate: Date,
   tokenExpirationDate: Date,
@@ -29,6 +30,7 @@ export interface AuthResponseData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
+  authData = new BehaviorSubject<AuthData>(null);
   isAuth = new BehaviorSubject<boolean>(false);
   private tokenExpirationTimer: any;
 
@@ -44,8 +46,8 @@ export class AuthService {
     .pipe(
       catchError(this.handleError),
       tap(resData => {
-        this.handleAuthentication(resData.userId,resData.userName,resData.firstName,resData.lastName,resData.email,
-          resData.blockFlag,resData.blockReason,resData.token,resData.loginDate,
+        this.handleAuthentication(resData.userId,resData.userName,resData.firstName,resData.lastName,resData.emailId,
+          resData.blockFlag,resData.blockReason,resData.secQues,resData.token,resData.loginDate,
           resData.tokenExpirationDate,resData.roles,resData.tags)
       })
     );
@@ -71,6 +73,7 @@ export class AuthService {
 
   logout() {
     this.isAuth.next(false);
+    this.authData.next(null);
     this.user.next(null);
     this.router.navigate(['/login']);
     localStorage.removeItem('authData');
@@ -86,13 +89,16 @@ export class AuthService {
       userName: string,
       _token: string,
       loginDate: Date,
-      _tokenExpirationDate: Date
+      _tokenExpirationDate: Date,
+      roles: Role[]
     } = JSON.parse(localStorage.getItem('authData'));
     if (!authData) {
       return;
     }else{
       if (authData._token) {
+        const data = new AuthData(authData.userId,authData.userName,authData._token,authData.loginDate,authData._tokenExpirationDate,authData.roles);
         this.isAuth.next(true);
+        this.authData.next(data);
       }
     }
   }
@@ -103,14 +109,15 @@ export class AuthService {
       userName: string,
       _token: string,
       loginDate: Date,
-      _tokenExpirationDate: Date
+      _tokenExpirationDate: Date,
+      roles: Role[]
     } = JSON.parse(localStorage.getItem('authData'));
     if (authData._token) {
       return this.http.get<AuthResponseData>(environment.apiUrl+'/refreshUser/'+authData.userName).pipe(
         catchError(this.handleError),
         tap(userDetails => {
-        this.handleAuthentication(userDetails.userId,userDetails.userName,userDetails.firstName,userDetails.lastName,userDetails.email,
-          userDetails.blockFlag,userDetails.blockReason,authData._token,authData.loginDate,
+        this.handleAuthentication(userDetails.userId,userDetails.userName,userDetails.firstName,userDetails.lastName,userDetails.emailId,
+          userDetails.blockFlag,userDetails.blockReason,userDetails.secQues,authData._token,authData.loginDate,
           authData._tokenExpirationDate,userDetails.roles,userDetails.tags)
       }));
     }
@@ -161,6 +168,27 @@ export class AuthService {
     );
   }
 
+  getSecQuesAnswer(username : string){
+    return this.http.get(environment.apiUrl+'/getSecQuesAnswer/'+username, {responseType:'text'}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateUserProfile(userId: number, userName:string, password: string, firstName: string, lastName : string, email: string, secQues : string, answer: string){
+    return this.http.post(environment.apiUrl+'/updateUserProfile',{
+      userId: userId,
+      userName: userName,
+      password : password,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      securityQues: secQues,
+      securityAns: answer
+  }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleAuthentication(
     userId: number,
     userName: string,
@@ -169,15 +197,17 @@ export class AuthService {
     email: string,
     blockFlag: string,
     blockReason: string,
+    secQues:string,
     token: string,
     loginDate: Date,
     tokenExpirationDate: Date,
     roles: Role[],
     tags: Tag[]
   ) {
-    const user = new User(userId,userName,firstName,lastName,email,blockFlag,blockReason,roles,tags);
-    const authData = new AuthData(userId,userName,token,loginDate,tokenExpirationDate);
+    const user = new User(userId,userName,firstName,lastName,email,blockFlag,blockReason,secQues,roles,tags);
+    const authData = new AuthData(userId,userName,token,loginDate,tokenExpirationDate,roles);
     this.isAuth.next(true);
+    this.authData.next(authData);
     this.user.next(user);
     const timeRemaining : number = new Date(tokenExpirationDate).getTime() - new Date().getTime();
     this.autoLogout(timeRemaining);

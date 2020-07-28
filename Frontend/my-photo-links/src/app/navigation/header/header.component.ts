@@ -7,23 +7,41 @@ import { Subscription } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit,OnDestroy {
 
   @Output() sideNavToggle = new EventEmitter<void>();
-  userSub: Subscription;
   isAuthenticated = false;
+  isSuperAdmin = false;
+  isAdmin = false;
+  authSub:Subscription;
+  authDataSub:Subscription;
 
   constructor(private authService : AuthService) { }
 
   ngOnDestroy(): void {
-    if(this.userSub){
-      this.userSub.unsubscribe();
+    if(this.authSub){
+      this.authSub.unsubscribe();
+    }
+    if(this.authDataSub){
+      this.authDataSub.unsubscribe();
     }
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.isAuth.subscribe(isAuth => {
+    this.authSub = this.authService.isAuth.subscribe(isAuth => {
       this.isAuthenticated = isAuth;
+    });
+    this.authDataSub = this.authService.authData.subscribe(authData => {
+      if(authData!=null){
+        authData.roles.forEach(role => {
+          if(role.roleName === 'ROLE_SUPERADMIN'){
+            this.isSuperAdmin = true;
+          }
+          if(role.roleName === 'ROLE_ADMIN'){
+            this.isAdmin = true;
+          }
+        })
+      }
     });
   }
 

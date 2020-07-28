@@ -12,6 +12,7 @@ public class LoginSuccessData {
 	private String emailId;
 	private String blockFlag;
 	private String blockReason;
+	private String secQues;
 	private String token;
 	private Date loggedInDate;
 	private Date tokenExpirationDate;
@@ -21,7 +22,7 @@ public class LoginSuccessData {
 	public LoginSuccessData() {
 	}
 	
-	public LoginSuccessData(int userId,String userName, String firstName, String lastName, String emailId, String blockFlag, String blockReason,Collection<Role> roles, Collection<Tag> tags) {
+	public LoginSuccessData(int userId,String userName, String firstName, String lastName, String emailId, String blockFlag, String blockReason, String secQues, Collection<Role> roles, Collection<Tag> tags) {
 		this.userId = userId;
 		this.userName = userName;
 		this.firstName = firstName;
@@ -29,6 +30,7 @@ public class LoginSuccessData {
 		this.emailId = emailId;
 		this.blockFlag = blockFlag;
 		this.blockReason = blockReason;
+		this.secQues = secQues;
 		this.roles = roles;
 		this.tags = tags;
 	}
@@ -89,6 +91,14 @@ public class LoginSuccessData {
 		this.blockReason = blockReason;
 	}
 
+	public String getSecQues() {
+		return secQues;
+	}
+
+	public void setSecQues(String secQues) {
+		this.secQues = secQues;
+	}
+
 	public String getToken() {
 		return token;
 	}
@@ -133,8 +143,8 @@ public class LoginSuccessData {
 	public String toString() {
 		return "LoginSuccessData [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", emailId=" + emailId + ", blockFlag=" + blockFlag + ", blockReason="
-				+ blockReason + ", token=" + token + ", loggedInDate=" + loggedInDate + ", tokenExpirationDate="
-				+ tokenExpirationDate + ", roles=" + roles + ", tags=" + tags + "]";
+				+ blockReason + ", secQues=" + secQues + ", token=" + token + ", loggedInDate=" + loggedInDate
+				+ ", tokenExpirationDate=" + tokenExpirationDate + ", roles=" + roles + ", tags=" + tags + "]";
 	}
 
 }

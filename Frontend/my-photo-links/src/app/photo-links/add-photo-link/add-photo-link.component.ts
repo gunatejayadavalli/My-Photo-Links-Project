@@ -82,40 +82,78 @@ export class AddPhotoLinkComponent implements OnInit {
 
   OnSubmit(){
     this.adding = true;
-    const creationTime = new Date();
-    this.allSubs.push(this.photoLinkService.addOrUpdatePhotoLink(
-      0,
-      this.addForm.value.event,
-      this.addForm.value.fromDate,
-      this.addForm.value.toDate,
-      this.addForm.value.photoLink,
-      creationTime,
-      this.loggedInUser.userName,
-      null,
-      null,
-      this.addForm.value.tags).subscribe(
-        result => {
+
+
+    this.allSubs.push(this.authService.refreshUser().subscribe(user => {
+      let isSuperAdmin = false;
+      let isAdmin = false;
+      if(user.tags.length==0 || user.blockFlag === 'Y'){
+        window.location.reload();
+      }else{
+        user.roles.forEach(role => {
+          if(role.roleName === 'ROLE_SUPERADMIN'){
+            isSuperAdmin = true;
+          }
+          if(role.roleName === 'ROLE_ADMIN'){
+            isAdmin = true;
+          }
+        })
+        if(isSuperAdmin || isAdmin){
+          const creationTime = new Date();
+          this.allSubs.push(this.photoLinkService.addOrUpdatePhotoLink(
+            0,
+            this.addForm.value.event,
+            this.addForm.value.fromDate,
+            this.addForm.value.toDate,
+            this.addForm.value.photoLink,
+            creationTime,
+            this.loggedInUser.userName,
+            null,
+            null,
+            this.addForm.value.tags).subscribe(
+              result => {
+                this.adding = false;
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: "Photo link added Successfully !"
+                });
+                this.addForm.reset();
+              },
+              errorMessage => {
+                this.adding = false;
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: errorMessage,
+                  showClass: {
+                    popup: 'animate__animated animate__shakeX'
+                  }
+                });
+              }
+            )
+          );
+        }else{
           this.adding = false;
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: "Photo link added Successfully !"
-          });
-          this.addForm.reset();
-        },
-        errorMessage => {
-          this.adding = false;
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: errorMessage,
-            showClass: {
-              popup: 'animate__animated animate__shakeX'
-            }
-          });
+            Swal.fire({
+              icon: 'error',
+              title: 'Access Denied',
+              text: "You need admin access to add a link !",
+              showClass: {
+                popup: 'animate__animated animate__shakeX'
+              }
+            });
         }
-      )
+      }
+    })
     );
+
+
+
+
+
+
+
   }
 
 }

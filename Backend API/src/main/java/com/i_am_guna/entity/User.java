@@ -3,6 +3,11 @@ package com.i_am_guna.entity;
 import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import java.util.Collection;
 import java.util.Date;
 
@@ -46,6 +51,7 @@ public class User {
 	@Column(name = "username")
 	private String userName;
 
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@Column(name = "password")
 	private String password;
 
@@ -62,6 +68,7 @@ public class User {
 	private String securityQues;
 	
 	@Column(name = "security_ans")
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String securityAns;
 	
 	@Column(name = "block_flag")
@@ -72,10 +79,12 @@ public class User {
 	
 	@Column(name="creation_time")
 	@CreationTimestamp
+	@JsonIgnore
 	private Date creationTime;
 	
 	@Column(name="updation_time")
 	@UpdateTimestamp
+	@JsonIgnore
 	private Date updationTime;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
