@@ -27,6 +27,7 @@ import {ManageUsersService} from './services/manage-users.service';
 import { FooterComponent } from './navigation/footer/footer.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import {DisableControlDirective} from './my-profile/disable-control.directive';
+import { ManageTagsComponent } from './superadmin/manage-tags/manage-tags.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {DisableControlDirective} from './my-profile/disable-control.directive';
     ManageUsersComponent,
     FooterComponent,
     MyProfileComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    ManageTagsComponent
   ],
   imports: [
     BrowserModule,

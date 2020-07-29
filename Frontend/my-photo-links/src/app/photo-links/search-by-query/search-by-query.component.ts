@@ -20,7 +20,7 @@ export class SearchByQueryComponent implements OnInit {
   minDate;
   allSubs: Subscription[] = [];
   searching = false;
-  userTags: Tag[] = [new Tag(0,'All')];
+  userTags: Tag[] = [new Tag(0,'All',null,null,null,null)];
 
   constructor(private authService: AuthService, private photoLinksService : PhotoLinksService, private router : Router) { }
 

@@ -1,0 +1,20 @@
+mat-accordion{
+    width: 90%;
+    max-width: 600px;
+}
+
+.tag-title{
+    font-size: medium;
+    overflow: hidden;
+}
+
+mat-expansion-panel{
+    margin-bottom: 6px;
+}
+
+.message{
+    max-width: 300px;
+    font-size: large;
+    margin: 2px;
+    text-align: center;
+}

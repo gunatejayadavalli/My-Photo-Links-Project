@@ -30,7 +30,6 @@ export interface AuthResponseData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
-  authData = new BehaviorSubject<AuthData>(null);
   isAuth = new BehaviorSubject<boolean>(false);
   private tokenExpirationTimer: any;
 
@@ -73,7 +72,6 @@ export class AuthService {
 
   logout() {
     this.isAuth.next(false);
-    this.authData.next(null);
     this.user.next(null);
     this.router.navigate(['/login']);
     localStorage.removeItem('authData');
@@ -96,9 +94,8 @@ export class AuthService {
       return;
     }else{
       if (authData._token) {
-        const data = new AuthData(authData.userId,authData.userName,authData._token,authData.loginDate,authData._tokenExpirationDate,authData.roles);
+        const data = new AuthData(authData.userId,authData.userName,authData._token,authData.loginDate,authData._tokenExpirationDate);
         this.isAuth.next(true);
-        this.authData.next(data);
       }
     }
   }
@@ -205,9 +202,8 @@ export class AuthService {
     tags: Tag[]
   ) {
     const user = new User(userId,userName,firstName,lastName,email,blockFlag,blockReason,secQues,roles,tags);
-    const authData = new AuthData(userId,userName,token,loginDate,tokenExpirationDate,roles);
+    const authData = new AuthData(userId,userName,token,loginDate,tokenExpirationDate);
     this.isAuth.next(true);
-    this.authData.next(authData);
     this.user.next(user);
     const timeRemaining : number = new Date(tokenExpirationDate).getTime() - new Date().getTime();
     this.autoLogout(timeRemaining);

@@ -65,4 +65,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Modifying
 	@Query("update User u set u.firstName=?1, u.lastName=?2, u.email=?3, u.securityQues=?4, u.securityAns=?5, u.updationTime=?6 where u.userId=?7")
 	int updateUserProfileWithNoPassword(String firstName, String lastName, String email, String secQues, String answer, Date dateNow, int userId);
+
+	List<User> findAllByOrderByCreationTimeDesc();
 }

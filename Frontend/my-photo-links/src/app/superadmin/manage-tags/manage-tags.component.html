@@ -1,0 +1,39 @@
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="!isSuperAdmin">
+
+    <br><br><br>
+    
+    <div fxLayout="column" fxLayoutAlign="center center">
+
+
+        <h2 style="color: red;" class="animate__animated animate__bounce message"><b>THIS SCREEN IS ACCESSABLE TO SUPERADMIN ONLY</b></h2> <br><br>
+
+
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <a routerLink="photoLinks" mat-raised-button color="primary">Go Back</a>
+
+</section>
+
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="isSuperAdmin">
+    <br>
+    <mat-accordion>
+    
+        <mat-expansion-panel *ngFor="let tag of allTags">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                <div>
+                    <div class="tag-title"><b>{{tag.tagName}}</b></div>
+                </div>
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="35px">
+                    <button mat-icon-button color="primary" (click)="addTag(tag)"><mat-icon>add</mat-icon></button>
+                    <button mat-icon-button color="accent" (click)="updateTag(tag)"><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button color="warn" (click)="deleteTag(tag)"><mat-icon>delete</mat-icon></button>
+                </div>
+        </mat-expansion-panel>
+    
+    </mat-accordion>
+</section>

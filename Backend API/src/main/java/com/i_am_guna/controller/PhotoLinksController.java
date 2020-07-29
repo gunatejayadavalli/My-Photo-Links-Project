@@ -36,14 +36,9 @@ public class PhotoLinksController {
 		String selectedTag = "%";
 		userName = userName.toLowerCase();
 		photoLink.setKeyword("%"+photoLink.getKeyword().toLowerCase().trim()+"%");
-		System.out.println("photoLink.getSelectedTag() : "+photoLink.getSelectedTag());
 		if(photoLink.getSelectedTag()!=0) {
-			System.out.println("True");
 			selectedTag = Integer.toString(photoLink.getSelectedTag());
-		}else {
-			System.out.println("False");
 		}
-		System.out.println("Selected Tag = "+selectedTag);
 		List<PhotoLink> photoLinks =  userRepository.findUserPhotoLinksByQuery(userName,photoLink.getKeyword(),photoLink.getFromDate(),photoLink.getToDate(),selectedTag);
 		List<PhotoLink> photoLinksFinal = new ArrayList<PhotoLink>();
 		for(PhotoLink pl : photoLinks) {

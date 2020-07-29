@@ -23,6 +23,11 @@
     <span class="nav-caption">Manage Users</span>
   </a>
   <mat-divider *ngIf="isAuthenticated"></mat-divider>
+  <a mat-list-item routerLink="/manageTags" (click)="OnClose()" *ngIf="isAuthenticated">
+    <mat-icon>games</mat-icon>
+    <span class="nav-caption">Manage Tags</span>
+  </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
   <mat-list-item *ngIf="isAuthenticated">
     <button mat-icon-button (click)="OnLogout()">
       <mat-icon>eject</mat-icon>

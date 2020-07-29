@@ -6,8 +6,7 @@ export class AuthData {
     public userName: string,
     private _token: string,
     public loginDate: Date,
-    private _tokenExpirationDate: Date,
-    public roles: Role[]
+    private _tokenExpirationDate: Date
   ) {}
 
   get token() {

@@ -54,20 +54,16 @@ public class Tag {
 	
 	@Column(name="creation_time")
 	@CreationTimestamp
-	@JsonIgnore
 	private Date creationTime;
 	
 	@Column(name="created_by")
-	@JsonIgnore
 	private String createdBy;
 	
 	@Column(name="updation_time")
 	@UpdateTimestamp
-	@JsonIgnore
 	private Date updationTime;
 	
 	@Column(name="updated_by")
-	@JsonIgnore
 	private String updatedBy;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})

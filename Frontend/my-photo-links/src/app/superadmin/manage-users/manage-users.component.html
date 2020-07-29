@@ -1,3 +1,21 @@
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="!isSuperAdmin">
+
+    <br><br><br>
+    
+    <div fxLayout="column" fxLayoutAlign="center center">
+
+
+        <h2 style="color: red;" class="animate__animated animate__bounce message"><b>THIS SCREEN IS ACCESSABLE TO SUPERADMIN ONLY</b></h2> <br><br>
+
+
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <a routerLink="photoLinks" mat-raised-button color="primary">Go Back</a>
+
+</section>
+
 <section fxLayout="column" fxLayoutAlign="center center" *ngIf="isSuperAdmin">
     <br>
     <mat-accordion>
@@ -32,24 +50,3 @@
     
     </mat-accordion>
 </section>
-
-
-<section fxLayout="column" fxLayoutAlign="center center" *ngIf="!isSuperAdmin">
-
-    <br><br><br>
-    
-    <div fxLayout="column" fxLayoutAlign="center center">
-
-
-        <h2 style="color: red;" class="animate__animated animate__bounce message"><b>THIS SCREEN IS ACCESSABLE TO SUPERADMIN ONLY</b></h2> <br><br>
-
-
-    </div>
-
-    <br><br><br><br><br><br>
-
-    <a routerLink="photoLinks" mat-raised-button color="primary">Go Back</a>
-
-</section>
-    
-    

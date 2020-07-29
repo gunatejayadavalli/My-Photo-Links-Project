@@ -19,6 +19,17 @@ export class ManageUsersService {
         return this.http.get<User[]>(environment.apiUrl + '/getAllUsers',).pipe(catchError(this.handleError));
     }
 
+    getAllTags(){
+        return this.http.get<Tag[]>(environment.apiUrl + '/getAllTags',).pipe(catchError(this.handleError));
+    }
+
+    modifyUserTags(userId:number,hasTags: boolean,newTags: Tag[]){
+        return this.http.post<boolean>(environment.apiUrl + '/modifyUserTags?hasTags='+hasTags,{
+            userId: userId,
+            tags: newTags
+        }).pipe(catchError(this.handleError));
+    }
+
     private handleError(errorRes: HttpErrorResponse) {
         let errorMessage = 'Something went wrong !';
         if (!errorRes.error || !errorRes.error.message) {

@@ -7,6 +7,7 @@ import { ManageUsersService } from '../../services/manage-users.service';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Tag } from 'src/app/models/tag.model';
 
 @Component({
   selector: 'app-manage-users',
@@ -19,6 +20,7 @@ export class ManageUsersComponent implements OnInit {
   loggedInUser: User;
   isSuperAdmin = false;
   users:User[] = [];
+  allTags:Tag[] = [];
 
   constructor(private route: ActivatedRoute, private authService: AuthService, 
     private manageUsersService : ManageUsersService, private http : HttpClient, private router: Router) { }
@@ -35,7 +37,10 @@ export class ManageUsersComponent implements OnInit {
       this.authService.user.next(this.loggedInUser);
     }));
 
-    this.getUsers();
+    if(this.isSuperAdmin){
+      this.getUsers();
+      this.getTags();
+    }
 
   }
 
@@ -43,6 +48,14 @@ export class ManageUsersComponent implements OnInit {
     this.allSubs.push(
       this.manageUsersService.getAllUsers().subscribe(users => {
         this.users = users;
+      })
+    );
+  }
+
+  getTags(){
+    this.allSubs.push(
+      this.manageUsersService.getAllTags().subscribe(tags => {
+        this.allTags = tags;
       })
     );
   }
