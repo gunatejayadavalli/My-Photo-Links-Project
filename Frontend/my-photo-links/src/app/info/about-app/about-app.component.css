@@ -1,0 +1,10 @@
+.AppIntro{
+    text-align: justify;
+    font-size: medium;
+}
+
+.main{
+    padding: 8px;
+    max-width: 600px;
+    align-content: center;
+}

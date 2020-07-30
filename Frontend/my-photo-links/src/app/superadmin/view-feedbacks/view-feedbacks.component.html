@@ -1,0 +1,46 @@
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="!isSuperAdmin">
+
+    <br><br><br>
+    
+    <div fxLayout="column" fxLayoutAlign="center center">
+
+
+        <h2 style="color: red;" class="animate__animated animate__bounce message"><b>THIS SCREEN IS ACCESSABLE TO SUPERADMIN ONLY</b></h2> <br><br>
+
+
+    </div>
+
+    <br><br><br><br><br><br>
+
+    <a routerLink="photoLinks" mat-raised-button color="primary">Go Back</a>
+
+</section>
+
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="isSuperAdmin">
+    <br>
+    <mat-accordion>
+    
+        <mat-expansion-panel *ngFor="let feedback of allFeedbacks">
+            <mat-expansion-panel-header [ngClass]="{
+                'unread' : !(feedback.readDate),
+                'read-complement' : feedback.readDate && feedback.feedbackType==='Complement',
+                'read-notComplement-notResolved' : feedback.readDate && feedback.feedbackType != 'Complement' && !(feedback.resolvedDate),
+                'read-notComplement-resolved' : feedback.readDate && feedback.feedbackType != 'Complement' && feedback.resolvedDate
+            }">
+            <mat-panel-title>
+                <div>
+                    <div class="feedbackType"><b>{{feedback.feedbackType}}</b></div>
+                    <div class="feedbackInfo">By {{feedback.submittedBy}} - {{feedback.submittedDate | date:'medium'}}</div>
+                </div>
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="55px">
+                    <button mat-icon-button *ngIf="!(feedback.readDate)" (click)="markAsRead(feedback)" style="color: red;"><mat-icon>thumb_down</mat-icon></button>
+                    <button mat-icon-button *ngIf="feedback.readDate" (click)="viewFeedbackMessage(feedback)" style="color: green;"><mat-icon>thumb_up</mat-icon></button>
+                    <button mat-icon-button [ngStyle]="{'color': (!(feedback.readDate)) ? 'rgba(0,0,0,.26)' : 'red'}" [disabled]="!(feedback.readDate)" *ngIf="((feedback.feedbackType!='Complement') && !(feedback.resolvedDate))" (click)="markAsResolved(feedback)" style="color: red;"><mat-icon>thumb_down</mat-icon></button>
+                    <button mat-icon-button *ngIf="((feedback.feedbackType!='Complement') && (feedback.resolvedDate))" (click)="viewResolutionMessage(feedback)" style="color: green;"><mat-icon>thumb_up</mat-icon></button>
+                </div>
+        </mat-expansion-panel>
+    
+    </mat-accordion>
+</section>

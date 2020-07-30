@@ -8,6 +8,7 @@
     <mat-icon>input</mat-icon>
     <span class="nav-caption">Login</span>
   </a>
+  <mat-divider *ngIf="!isAuthenticated"></mat-divider>
   <a mat-list-item routerLink="/photoLinks" (click)="OnClose()" *ngIf="isAuthenticated">
     <mat-icon>perm_media</mat-icon>
     <span class="nav-caption">Photo Links</span>
@@ -26,6 +27,21 @@
   <a mat-list-item routerLink="/manageTags" (click)="OnClose()" *ngIf="isAuthenticated">
     <mat-icon>games</mat-icon>
     <span class="nav-caption">Manage Tags</span>
+  </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
+  <a mat-list-item routerLink="/aboutApp" (click)="OnClose()">
+    <mat-icon>info</mat-icon>
+    <span class="nav-caption">About App</span>
+  </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
+  <a mat-list-item routerLink="/giveFeedback" (click)="OnClose()" *ngIf="isAuthenticated">
+    <mat-icon>feedback</mat-icon>
+    <span class="nav-caption">Give Feedback</span>
+  </a>
+  <mat-divider *ngIf="isAuthenticated"></mat-divider>
+  <a mat-list-item routerLink="/viewFeedbacks" (click)="OnClose()" *ngIf="isAuthenticated">
+    <mat-icon>article</mat-icon>
+    <span class="nav-caption">View Feedbacks</span>
   </a>
   <mat-divider *ngIf="isAuthenticated"></mat-divider>
   <mat-list-item *ngIf="isAuthenticated">

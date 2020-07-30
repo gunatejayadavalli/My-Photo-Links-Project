@@ -28,6 +28,11 @@ import { FooterComponent } from './navigation/footer/footer.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import {DisableControlDirective} from './my-profile/disable-control.directive';
 import { ManageTagsComponent } from './superadmin/manage-tags/manage-tags.component';
+import { AboutMeComponent } from './info/about-me/about-me.component';
+import { AboutAppComponent } from './info/about-app/about-app.component';
+import {FeedbackService} from './services/feedback.service';
+import {GiveFeedbackComponent} from './give-feedback/give-feedback.component';
+import { ViewFeedbacksComponent } from './superadmin/view-feedbacks/view-feedbacks.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +52,11 @@ import { ManageTagsComponent } from './superadmin/manage-tags/manage-tags.compon
     FooterComponent,
     MyProfileComponent,
     DisableControlDirective,
-    ManageTagsComponent
+    ManageTagsComponent,
+    AboutMeComponent,
+    AboutAppComponent,
+    GiveFeedbackComponent,
+    ViewFeedbacksComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +77,7 @@ import { ManageTagsComponent } from './superadmin/manage-tags/manage-tags.compon
     },
     PhotoLinksService,
     ManageUsersService,
+    FeedbackService,
     DatePipe
   ],
   bootstrap: [AppComponent]

@@ -1,0 +1,30 @@
+/* .example-card {
+    width: 100%;
+    max-width: 600px;
+}
+
+mat-card{
+    top: 0;
+    margin-top: 5px;
+    border-top: 0;
+}
+
+.title{
+    font-size: large;
+}
+
+.info{
+    text-align: center;
+    font-size: medium;
+} */
+
+.intro{
+    text-align: justify;
+    font-size: medium;
+}
+
+.main{
+    padding: 8px;
+    max-width: 600px;
+    align-content: center;
+}

@@ -1,0 +1,45 @@
+<section>
+    <br>
+    <mat-card fxLayout="column" fxLayoutAlign="center center">
+    
+      <mat-card-header>
+        <mat-card-title>Submit Feedback</mat-card-title>
+      </mat-card-header>
+    
+      <mat-card-content>
+    
+        <form fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center" [formGroup]="feedbackFormGroup">
+    
+          <mat-form-field color="primary" appearance="outline">
+            <mat-label>Feedback type</mat-label>
+            <mat-select formControlName="feedbackType">
+              <mat-option value="Issue">Issue</mat-option>
+              <mat-option value="Suggestion">Suggestion</mat-option>
+              <mat-option value="Complement">Complement</mat-option>
+            </mat-select>
+            <mat-error>Please select the feedback type</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea  matInput #msg formControlName="feedbackMsg" placeholder="Message"
+            matTextareaAutosize 
+            matAutosizeMinRows=5 
+            matAutosizeMaxRows=10
+            ></textarea>
+            <mat-hint>Must be min 15 and max 300 characters long</mat-hint>
+            <mat-hint align="end">{{msg.value?.length || 0}}/300</mat-hint>
+            <mat-error>Must be min 15 and max 300 characters long</mat-error>
+          </mat-form-field>
+    
+        </form>
+    
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngIf="!isSubmitting" mat-raised-button color="primary" [disabled]="feedbackFormGroup.invalid" (click)="OnSubmit()">Submit</button>
+        <mat-spinner *ngIf="isSubmitting"></mat-spinner>
+      </mat-card-actions>
+    
+    </mat-card>
+    </section>
+    

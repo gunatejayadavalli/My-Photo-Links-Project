@@ -46,6 +46,15 @@ export class ManageTagsComponent implements OnInit {
       this.allSubs.push(
         this.manageUsersService.getAllTags().subscribe(tags => {
           this.allTags = tags;
+          if(this.allTags.length==0){
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'No tags found !'
+            }).then(result => {
+              this.router.navigate(['/photoLinks'])
+            });
+          }
         })
       );
     }
@@ -100,7 +109,7 @@ export class ManageTagsComponent implements OnInit {
           return !value && 'Must input tag name'
         },
         showCancelButton: true,
-        confirmButtonText: 'Add',
+        confirmButtonText: 'Save',
         showLoaderOnConfirm: true,
         preConfirm: (tagName) => {
           return this.http.post<boolean>(environment.apiUrl+'/addUpdateTag',{
@@ -151,7 +160,7 @@ export class ManageTagsComponent implements OnInit {
         },
         allowOutsideClick: () => !Swal.isLoading()
       }).then((result) => {
-        if (result) {
+        if (result.value) {
           Swal.fire({
             icon: 'success',
             title: 'Success',

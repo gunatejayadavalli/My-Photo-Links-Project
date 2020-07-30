@@ -10,6 +10,10 @@ import {UserResolver} from './services/user-resolver.service';
 import { ManageUsersComponent } from './superadmin/manage-users/manage-users.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { ManageTagsComponent } from './superadmin/manage-tags/manage-tags.component';
+import { AboutMeComponent } from './info/about-me/about-me.component';
+import { AboutAppComponent } from './info/about-app/about-app.component';
+import { GiveFeedbackComponent } from './give-feedback/give-feedback.component';
+import {ViewFeedbacksComponent} from './superadmin/view-feedbacks/view-feedbacks.component';
 
 const routes: Routes = [
   {path:'login', component: LoginComponent, canActivate: [AuthGuard]},
@@ -20,6 +24,10 @@ const routes: Routes = [
   {path:'manageUsers', component: ManageUsersComponent, canActivate: [AuthGuard], resolve : {user : UserResolver}},
   {path:'myProfile', component: MyProfileComponent, canActivate: [AuthGuard], resolve : {user : UserResolver}},
   {path:'manageTags', component: ManageTagsComponent, canActivate: [AuthGuard], resolve : {user : UserResolver}},
+  {path:'giveFeedback', component:GiveFeedbackComponent, canActivate: [AuthGuard]},
+  {path:'viewFeedbacks', component:ViewFeedbacksComponent, canActivate: [AuthGuard], resolve : {user : UserResolver}},
+  {path:'aboutMe', component:AboutMeComponent},
+  {path:'aboutApp',component:AboutAppComponent},
   {path: '', redirectTo:'/photoLinks', pathMatch:'full'},
   {path: '**', redirectTo:'/photoLinks', pathMatch:'full'}
 ];
