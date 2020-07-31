@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +13,7 @@ import { User } from 'src/app/models/user.model';
   templateUrl: './add-photo-link.component.html',
   styleUrls: ['./add-photo-link.component.css']
 })
-export class AddPhotoLinkComponent implements OnInit {
+export class AddPhotoLinkComponent implements OnInit,OnDestroy {
 
   addForm: FormGroup;
   maxDate;
@@ -147,13 +147,16 @@ export class AddPhotoLinkComponent implements OnInit {
       }
     })
     );
+  }
 
-
-
-
-
-
-
+  ngOnDestroy(){
+    if(this.allSubs.length>0){
+      this.allSubs.forEach(sub => {
+        if(sub){
+          sub.unsubscribe();
+        }
+      });
+    }
   }
 
 }

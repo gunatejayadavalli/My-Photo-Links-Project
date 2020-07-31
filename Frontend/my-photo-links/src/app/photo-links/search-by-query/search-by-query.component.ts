@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { PhotoLinksService } from '../../services/photo-links.service';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './search-by-query.component.html',
   styleUrls: ['./search-by-query.component.css']
 })
-export class SearchByQueryComponent implements OnInit {
+export class SearchByQueryComponent implements OnInit,OnDestroy {
 
   searchForm: FormGroup;
   maxDate;
@@ -127,6 +127,16 @@ export class SearchByQueryComponent implements OnInit {
     })
     );
 
+  }
+
+  ngOnDestroy(){
+    if(this.allSubs.length>0){
+      this.allSubs.forEach(sub => {
+        if(sub){
+          sub.unsubscribe();
+        }
+      });
+    }
   }
 
 }

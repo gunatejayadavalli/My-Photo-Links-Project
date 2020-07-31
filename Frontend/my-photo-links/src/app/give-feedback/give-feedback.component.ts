@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FeedbackService } from 'src/app/services/feedback.service';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
   templateUrl: './give-feedback.component.html',
   styleUrls: ['./give-feedback.component.css']
 })
-export class GiveFeedbackComponent implements OnInit {
+export class GiveFeedbackComponent implements OnInit,OnDestroy {
 
   userId:number;
   username:string;
@@ -38,7 +38,6 @@ export class GiveFeedbackComponent implements OnInit {
   }
 
   OnSubmit(){
-    console.log('this.feedbackFormGroup.value.feedbackType : '+this.feedbackFormGroup.value.feedbackType);
     this.isSubmitting = true;
     this.allSubs.push(this.feedbackService.submitFeedback(
       this.userId,
@@ -64,6 +63,16 @@ export class GiveFeedbackComponent implements OnInit {
           }
         });
       }));
+  }
+
+  ngOnDestroy(){
+    if(this.allSubs.length>0){
+      this.allSubs.forEach(sub => {
+        if(sub){
+          sub.unsubscribe();
+        }
+      });
+    }
   }
 
 }

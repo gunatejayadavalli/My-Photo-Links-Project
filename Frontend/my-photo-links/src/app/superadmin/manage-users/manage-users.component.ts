@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user.model';
@@ -14,7 +14,7 @@ import { Tag } from 'src/app/models/tag.model';
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css']
 })
-export class ManageUsersComponent implements OnInit {
+export class ManageUsersComponent implements OnInit,OnDestroy {
 
   allSubs:Subscription[] = [];
   loggedInUser: User;

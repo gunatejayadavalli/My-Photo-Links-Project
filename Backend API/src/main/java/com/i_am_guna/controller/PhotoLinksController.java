@@ -42,7 +42,13 @@ public class PhotoLinksController {
 		List<PhotoLink> photoLinks =  userRepository.findUserPhotoLinksByQuery(userName,photoLink.getKeyword(),photoLink.getFromDate(),photoLink.getToDate(),selectedTag);
 		List<PhotoLink> photoLinksFinal = new ArrayList<PhotoLink>();
 		for(PhotoLink pl : photoLinks) {
-			pl.setTags(findTagsByEventId(pl.getEventId()));
+			String[] tagIds = pl.getTagIDs().split(",");
+			String[] tagNames = pl.getTagNames().split(",");
+			List<Tag> tagList = new ArrayList<Tag>();
+			for(int i=0; i<tagIds.length;i++) {
+				tagList.add(new Tag(Integer.parseInt(tagIds[i]),tagNames[i]));
+			}
+			pl.setTags(tagList);
 			photoLinksFinal.add(pl);
 		}
 		return photoLinksFinal;

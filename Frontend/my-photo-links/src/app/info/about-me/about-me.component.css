@@ -24,7 +24,11 @@ mat-card{
 }
 
 .main{
+    max-width: 600px;
+}
+
+.contact{
     padding: 8px;
     max-width: 600px;
-    align-content: center;
+    font-size: medium;
 }

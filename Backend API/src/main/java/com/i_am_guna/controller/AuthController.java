@@ -62,11 +62,7 @@ public class AuthController {
 	
 	@GetMapping("/refreshUser/{userName}")
 	public LoginSuccessData refreshUser(@PathVariable String userName) {
-		LoginSuccessData loginSuccessData = null;
-		if(userRepository.checkUserNameExist(userName)>0) {
-			return userDetailsService.getUserDetails(userName);
-		}
-		return loginSuccessData;
+		return userDetailsService.getUserDetails(userName);
 	}
 	
 	@GetMapping("/checkUserNameExist/{userName}")
@@ -126,7 +122,6 @@ public class AuthController {
 	
 	@PostMapping("/updateUserProfile")
 	public LoginSuccessData updateUserProfile(@RequestBody User user) {
-		System.out.println("User in request : "+user);
 		if(user.getPassword()!=null) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			userRepository.updateUserProfileWithPassword(user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), 

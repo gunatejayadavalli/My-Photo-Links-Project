@@ -58,6 +58,12 @@ public class PhotoLink {
 	@Column(name="updated_by")
 	private String updatedBy;
 	
+	@Transient
+	private String tagIDs;
+	
+	@Transient
+	private String tagNames;
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name = "photolinks_tags", 
 	joinColumns = {@JoinColumn(name = "event_id")}, 
@@ -103,6 +109,22 @@ public class PhotoLink {
 		this.createdBy = createdBy;
 		this.updationTime = updationTime;
 		this.updatedBy = updatedBy;
+	}
+	
+	
+	public PhotoLink(int eventId, String event, Date fromDate, Date toDate, String photosLink, Date creationTime,
+			String createdBy, Date updationTime, String updatedBy, String tagIDs, String tagNames) {
+		this.eventId = eventId;
+		this.event = event;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+		this.photosLink = photosLink;
+		this.creationTime = creationTime;
+		this.createdBy = createdBy;
+		this.updationTime = updationTime;
+		this.updatedBy = updatedBy;
+		this.tagIDs = tagIDs;
+		this.tagNames = tagNames;
 	}
 
 	public int getEventId() {
@@ -193,14 +215,28 @@ public class PhotoLink {
 		this.tagids = tagids;
 	}
 
+	public String getTagIDs() {
+		return tagIDs;
+	}
+
+	public void setTagIDs(String tagIDs) {
+		this.tagIDs = tagIDs;
+	}
+
+	public String getTagNames() {
+		return tagNames;
+	}
+
+	public void setTagNames(String tagNames) {
+		this.tagNames = tagNames;
+	}
+
 	@Override
 	public String toString() {
 		return "PhotoLink [eventId=" + eventId + ", event=" + event + ", fromDate=" + fromDate + ", toDate=" + toDate
 				+ ", photosLink=" + photosLink + ", creationTime=" + creationTime + ", createdBy=" + createdBy
-				+ ", updationTime=" + updationTime + ", updatedBy=" + updatedBy + ", tags=" + tags + ", tagids="
-				+ Arrays.toString(tagids) + "]";
+				+ ", updationTime=" + updationTime + ", updatedBy=" + updatedBy + ", tagIDs=" + tagIDs + ", tagNames="
+				+ tagNames + ", tags=" + tags + ", tagids=" + Arrays.toString(tagids) + "]";
 	}
-
-	
 
 }

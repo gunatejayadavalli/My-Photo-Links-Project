@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Tag } from 'src/app/models/tag.model';
@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './manage-tags.component.html',
   styleUrls: ['./manage-tags.component.css']
 })
-export class ManageTagsComponent implements OnInit {
+export class ManageTagsComponent implements OnInit,OnDestroy {
 
   allSubs:Subscription[] = [];
   loggedInUser: User;
@@ -170,6 +170,16 @@ export class ManageTagsComponent implements OnInit {
           });
         }
       })
+    }
+
+    ngOnDestroy(){
+      if(this.allSubs.length>0){
+        this.allSubs.forEach(sub => {
+          if(sub){
+            sub.unsubscribe();
+          }
+        });
+      }
     }
 
 }

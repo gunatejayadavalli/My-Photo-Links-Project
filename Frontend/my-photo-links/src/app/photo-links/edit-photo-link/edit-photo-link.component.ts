@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Tag } from 'src/app/models/tag.model';
@@ -15,7 +15,7 @@ import { User } from 'src/app/models/user.model';
   templateUrl: './edit-photo-link.component.html',
   styleUrls: ['./edit-photo-link.component.css']
 })
-export class EditPhotoLinkComponent implements OnInit {
+export class EditPhotoLinkComponent implements OnInit,OnDestroy {
 
   editForm: FormGroup;
   maxDate;
@@ -184,10 +184,19 @@ export class EditPhotoLinkComponent implements OnInit {
   }
 
   OnBackToResults(){
-    console.log('Inside this');
     this.photoLinksService.editMode.next(false);
     this.photoLinksService.editingPhotoLink.next(null);
     this.router.navigate(['/results']);
+  }
+
+  ngOnDestroy(){
+    if(this.allSubs.length>0){
+      this.allSubs.forEach(sub => {
+        if(sub){
+          sub.unsubscribe();
+        }
+      });
+    }
   }
 
 }

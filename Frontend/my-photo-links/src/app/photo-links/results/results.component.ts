@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PhotoLink } from '../../models/photo-link.model';
 import { PhotoLinksService } from '../../services/photo-links.service';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css']
 })
-export class ResultsComponent implements OnInit {
+export class ResultsComponent implements OnInit,OnDestroy {
 
   photoLinkResults : PhotoLink[] = null;
   allSubs: Subscription[] = [];

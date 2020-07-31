@@ -26,18 +26,23 @@ import java.util.Date;
 	                    @ColumnResult(name = "CreationTime"),
 	                    @ColumnResult(name = "createdBy"),
 	                    @ColumnResult(name = "updationTime"),
-	                    @ColumnResult(name = "updatedBy")
+	                    @ColumnResult(name = "updatedBy"),
+	                    @ColumnResult(name = "tagIDs"),
+	                    @ColumnResult(name = "tagNames")
 	            }
 	    )
 )
 @NamedNativeQuery(
 		name = "findUserPhotoLinksByQuery", 
-		query = "select distinct pl.event_id as eventId, pl.event as event, pl.from_date as fromDate, pl.to_date as toDate, pl.photos_link as photosLink, pl.creation_time as CreationTime, "+ 
-				"pl.created_by as createdBy, pl.updation_time as updationTime, pl.updated_by as updatedBy from photo_links pl " + 
-				"inner join photolinks_tags plt on plt.event_id = pl.event_id " + 
-				"inner join users_tags ut on ut.tag_id = plt.tag_id " + 
-				"inner join users u on u.user_id = ut.user_id " + 
-				"where u.username = ?1 and lower(pl.event) like ?2 and ((?3 <= pl.from_date and pl.from_date <= ?4) or (?3 <= pl.to_date and pl.to_date <= ?4) or (pl.from_date <= ?3 and ?4 <= pl.to_date) or (?3 <= pl.from_date and pl.to_date <= ?4)) and plt.tag_id like ?5 order by pl.to_date desc", 
+		query = "select pl.event_id as eventId, pl.event as event, pl.from_date as fromDate, pl.to_date as toDate, pl.photos_link as photosLink, pl.creation_time as CreationTime, "+ 
+				"pl.created_by as createdBy, pl.updation_time as updationTime, pl.updated_by as updatedBy," +
+				"GROUP_CONCAT(t.tag_id ORDER BY t.tag_id ASC SEPARATOR ',') as tagIDs," + 
+				"GROUP_CONCAT(t.tag_name ORDER BY t.tag_id ASC SEPARATOR ',') as tagNames from photo_links pl " + 
+				"left join photolinks_tags plt on plt.event_id = pl.event_id " + 
+				"left join tags t on t.tag_id = plt.tag_id " +
+				"left join users_tags ut on ut.tag_id = plt.tag_id " + 
+				"left join users u on u.user_id = ut.user_id " + 
+				"where u.username = ?1 and lower(pl.event) like ?2 and ((?3 <= pl.from_date and pl.from_date <= ?4) or (?3 <= pl.to_date and pl.to_date <= ?4) or (pl.from_date <= ?3 and ?4 <= pl.to_date) or (?3 <= pl.from_date and pl.to_date <= ?4)) and plt.tag_id like ?5 group by plt.event_id order by pl.to_date desc", 
 		resultClass = PhotoLink.class, 
 		resultSetMapping = "photoLinksDataMapping"
 )

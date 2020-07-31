@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
 
@@ -12,8 +12,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
   @Output() closeSideNav = new EventEmitter<void>();
   authSub: Subscription;
   isAuthenticated = false;
-  isSuperAdmin = false;
-  isAdmin = false;
+  showSuperAdminScreens = false;
 
   constructor(private authService : AuthService) { }
 
@@ -30,12 +29,17 @@ export class SideNavComponent implements OnInit, OnDestroy {
   }
 
   OnClose(){
+    this.showSuperAdminScreens=false;
     this.closeSideNav.emit();
   }
 
   OnLogout(){
     this.OnClose();
     this.authService.logout();
+  }
+
+  changeSuperAdmin(){
+    this.showSuperAdminScreens = ! this.showSuperAdminScreens;
   }
 
 

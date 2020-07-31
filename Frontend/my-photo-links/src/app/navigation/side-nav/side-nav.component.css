@@ -10,3 +10,21 @@ a:hover,a:active {
 .nav-caption{
   padding-left: 5px;
 }
+
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+}
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease-in-out;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 10px;
+}
+.submenu.expanded {
+  transform: scaleY(1);
+}

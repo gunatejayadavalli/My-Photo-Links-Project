@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './view-feedbacks.component.html',
   styleUrls: ['./view-feedbacks.component.css']
 })
-export class ViewFeedbacksComponent implements OnInit {
+export class ViewFeedbacksComponent implements OnInit,OnDestroy {
 
   allSubs:Subscription[] = [];
   loggedInUser: User;
@@ -159,6 +159,16 @@ export class ViewFeedbacksComponent implements OnInit {
       feedback.resolutionMsg,
       'info'
     )
+  }
+
+  ngOnDestroy(){
+    if(this.allSubs.length>0){
+      this.allSubs.forEach(sub => {
+        if(sub){
+          sub.unsubscribe();
+        }
+      });
+    }
   }
 
 }

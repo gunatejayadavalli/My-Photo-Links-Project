@@ -110,8 +110,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   onEditProfile(){
-    console.log(this.userFormGroup);
-    console.log('onEditProfile()');
     this.editProfile = !this.editProfile;
   }
 
