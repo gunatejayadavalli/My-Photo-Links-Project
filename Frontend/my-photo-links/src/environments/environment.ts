@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl:'http://localhost:8090/PhotoLinksRESTAPI'
+  //apiUrl:'http://localhost:8090/PhotoLinksRESTAPI'
+  apiUrl:'http://myphotolinks.ap-south-1.elasticbeanstalk.com'
 };
 
 /*

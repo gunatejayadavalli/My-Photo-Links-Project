@@ -64,7 +64,7 @@ CREATE TABLE `photo-links-project`.`users_roles` (
   CONSTRAINT `FK_USERSTAGS_USERID` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
 
-  CREATE TABLE `photo-links-project`.`photoLinks_tags` (
+  CREATE TABLE `photo-links-project`.`photolinks_tags` (
   `event_id` int NOT NULL,
   `tag_id` int NOT NULL,
   PRIMARY KEY (`event_id`,`tag_id`),
@@ -87,14 +87,21 @@ CREATE TABLE `photo-links-project`.`users_roles` (
   PRIMARY KEY (`feedback_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
 
-INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (1,'ROLE_SUPERADMIN');
-INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (2,'ROLE_ADMIN');
-INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (3,'ROLE_USER');
-
 INSERT INTO `photo-links-project`.`users`
 (user_id,username,password,first_name,last_name,email,security_ques,security_ans,block_flag,block_reason,creation_time,updation_time)
 VALUES (1,'superadmin','$2a$10$uxDOiWzVvifbgZRTFyUYqOyCBb1omGvi7.4fqjA1pKtqzxuuJ359O','Guna Teja','Yadavalli','gunateja100@gmail.com','What is your fav color ?','green','N',NULL,NOW(),NULL);
 
+
+INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (1,'ROLE_SUPERADMIN');
+INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (2,'ROLE_ADMIN');
+INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (3,'ROLE_USER');
+
+insert into `photo-links-project`.`tags`(tag_name,creation_time,created_by,updation_time,updated_by) values ('V R MAD KINGS',NOW(),'Gunateja',NULL,NULL);
+insert into `photo-links-project`.`tags`(tag_name,creation_time,created_by,updation_time,updated_by) values ('FAMILY',NOW(),'Gunateja',NULL,NULL);
+
 INSERT INTO `photo-links-project`.`users_roles` (`user_id`,`role_id`) VALUES (1,1);
 INSERT INTO `photo-links-project`.`users_roles` (`user_id`,`role_id`) VALUES (1,2);
 INSERT INTO `photo-links-project`.`users_roles` (`user_id`,`role_id`) VALUES (1,3);
+
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,1);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,2);
