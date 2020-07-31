@@ -32,3 +32,9 @@ mat-card{
     max-width: 600px;
     font-size: medium;
 }
+
+.socialIcons{
+    height:25px !important;
+    width:25px !important;
+    font-size:25px !important;
+}
