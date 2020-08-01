@@ -66,8 +66,9 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button  mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="editForm.invalid">Save</button>
-        <button mat-raised-button color="primary" (click)="OnBackToResults()">Back</button>
+        <button *ngIf="!editing" mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="editForm.invalid">Save</button>
+        <button *ngIf="!editing" mat-raised-button color="primary" (click)="OnBackToResults()">Back</button>
+        <mat-spinner *ngIf="editing"></mat-spinner>
       </mat-card-actions>
     
     </mat-card>

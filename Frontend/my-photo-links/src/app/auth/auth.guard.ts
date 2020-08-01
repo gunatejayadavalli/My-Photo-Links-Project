@@ -1,6 +1,6 @@
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { PhotoLinksService } from '../services/photo-links.service';
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
       map(isAuth => {
         if(router.url==='/photoLinks' || router.url==='/results' || router.url==='/manageUsers'
                || router.url==='/myProfile' || router.url==='/manageTags' || router.url === '/giveFeedback' 
-               || router.url === '/viewFeedbacks'){
+               || router.url === '/viewFeedbacks' || router.url === '/assignTag'){
           if (isAuth) {
             return true;
           }

@@ -12,6 +12,8 @@ import { environment } from 'src/environments/environment';
 export class ManageUsersService {
 
     allUsers: User[] = [];
+    assignTagsUser = new BehaviorSubject<User>(null);
+    allAvailableTags = new BehaviorSubject<Tag[]>([]);
 
     constructor(private http: HttpClient) { }
 

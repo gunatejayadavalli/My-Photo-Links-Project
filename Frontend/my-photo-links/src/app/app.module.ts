@@ -33,6 +33,7 @@ import { AboutAppComponent } from './info/about-app/about-app.component';
 import {FeedbackService} from './services/feedback.service';
 import {GiveFeedbackComponent} from './give-feedback/give-feedback.component';
 import { ViewFeedbacksComponent } from './superadmin/view-feedbacks/view-feedbacks.component';
+import { AssignTagsComponent } from './superadmin/manage-users/assign-tags/assign-tags.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ViewFeedbacksComponent } from './superadmin/view-feedbacks/view-feedbac
     AboutMeComponent,
     AboutAppComponent,
     GiveFeedbackComponent,
-    ViewFeedbacksComponent
+    ViewFeedbacksComponent,
+    AssignTagsComponent
   ],
   imports: [
     BrowserModule,

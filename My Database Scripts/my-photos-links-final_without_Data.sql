@@ -96,8 +96,15 @@ INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (1,'ROLE
 INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (2,'ROLE_ADMIN');
 INSERT INTO `photo-links-project`.`roles`(`role_id`,`role_name`) VALUES (3,'ROLE_USER');
 
-insert into `photo-links-project`.`tags`(tag_name,creation_time,created_by,updation_time,updated_by) values ('V R MAD KINGS',NOW(),'Gunateja',NULL,NULL);
-insert into `photo-links-project`.`tags`(tag_name,creation_time,created_by,updation_time,updated_by) values ('FAMILY',NOW(),'Gunateja',NULL,NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (1,'V R MAD KINGS','2020-07-31 21:16:32','superadmin','2020-07-31 21:16:32',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (2,'FAMILY','2020-07-31 21:16:32','superadmin','2020-07-31 21:16:32',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (3,'SURYA','2020-08-01 02:55:04','superadmin','2020-08-01 02:55:04',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (4,'3 IDIOTS','2020-08-01 02:55:13','superadmin','2020-08-01 02:55:13',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (5,'SIA CHILL GANG','2020-08-01 02:55:29','superadmin','2020-08-01 02:55:29',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (6,'SRKR','2020-08-01 02:55:41','superadmin','2020-08-01 02:55:41',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (7,'SRKR Roomies','2020-08-01 02:58:34','superadmin','2020-08-01 02:58:34',NULL);
+INSERT INTO `photo-links-project`.`tags` (`tag_id`,`tag_name`,`creation_time`,`created_by`,`updation_time`,`updated_by`) VALUES (8,'SIA TEAM','2020-08-01 10:42:02','superadmin','2020-08-01 10:42:02',NULL);
+
 
 INSERT INTO `photo-links-project`.`users_roles` (`user_id`,`role_id`) VALUES (1,1);
 INSERT INTO `photo-links-project`.`users_roles` (`user_id`,`role_id`) VALUES (1,2);
@@ -105,3 +112,9 @@ INSERT INTO `photo-links-project`.`users_roles` (`user_id`,`role_id`) VALUES (1,
 
 INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,1);
 INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,2);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,3);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,4);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,5);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,6);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,7);
+INSERT INTO `photo-links-project`.`users_tags` (`user_id`,`tag_id`) VALUES (1,8);

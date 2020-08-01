@@ -45,9 +45,9 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button  mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="searchForm.invalid">Search</button>
+        <button *ngIf="!searching" mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="searchForm.invalid">Search</button>
+        <mat-spinner *ngIf="searching"></mat-spinner>
       </mat-card-actions>
-    
     </mat-card>
 
 </section>

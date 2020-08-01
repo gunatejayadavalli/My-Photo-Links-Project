@@ -117,8 +117,11 @@ export class AddPhotoLinkComponent implements OnInit,OnDestroy {
                   icon: 'success',
                   title: 'Success',
                   text: "Photo link added Successfully !"
-                });
-                this.addForm.reset();
+                }).then(result=>{
+                  this.addForm.reset();
+                  this.addForm.get('fromDate').setErrors(null);
+                  this.addForm.get('toDate').setErrors(null);
+                })
               },
               errorMessage => {
                 this.adding = false;

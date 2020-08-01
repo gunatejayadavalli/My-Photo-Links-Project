@@ -79,8 +79,6 @@ export class SearchByQueryComponent implements OnInit,OnDestroy {
         toDate : this.maxDate
       })
     }
-
-
     this.allSubs.push(this.authService.refreshUser().subscribe(user => {
       if(user.tags.length==0 || user.blockFlag === 'Y'){
         window.location.reload();

@@ -234,24 +234,9 @@ export class ManageUsersComponent implements OnInit,OnDestroy {
   }
 
   modifyTags(user:User){
-    console.log('Modify tags clicked');
-
-    // Swal.fire({
-    //   title: 'edit form',
-    //   html:'<form>'+
-    //        '<select name="tag" id="tag">'+
-    //           '<option value="1">V R MAD KINDS</option>' +
-    //           '<option value="2">FAMILY</option>' +
-    //           '<option value="3">SIA</option>' +
-    //        '</select>'+
-    //        '</form>',
-    //   showCancelButton: true,
-    //   onBeforeOpen: () =>{
-    //     document.getElementById("tag").selectedIndex = "1";
-    //   }
-    // }).then((result) => {
-    // });
-  
+    this.manageUsersService.allAvailableTags.next(this.loggedInUser.tags);
+    this.manageUsersService.assignTagsUser.next(user);
+    this.router.navigate(['/assignTag']);
   }
 
   ngOnDestroy(){

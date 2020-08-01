@@ -63,6 +63,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.loggedInUser = data.user;
       this.authService.user.next(this.loggedInUser);
       this.allSubs.push(this.authService.getSecQuesAnswer(data.user.userName).subscribe(answer => {
+        this.userFormGroup.disable();
         this.secQuesAns = answer;
         this.userFormGroup.patchValue({
           firstName : data.user.firstName,
@@ -72,7 +73,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
           answer: answer,
           password: null,
           confirmPassword: null
-        })
+        });
       }));
     }));
 
@@ -111,6 +112,11 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
   onEditProfile(){
     this.editProfile = !this.editProfile;
+    if(this.editProfile){
+      this.userFormGroup.enable();
+    }else{
+      this.userFormGroup.disable();
+    }
   }
 
   enableEditPassword(){
@@ -133,6 +139,11 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       password : null,
       confirmPassword : null
     })
+    if(this.editProfile){
+      this.userFormGroup.enable();
+    }else{
+      this.userFormGroup.disable();
+    }
   }
 
   ngOnDestroy(){

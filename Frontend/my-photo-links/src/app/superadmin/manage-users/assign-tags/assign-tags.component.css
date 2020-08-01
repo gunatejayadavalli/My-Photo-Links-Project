@@ -2,6 +2,6 @@ mat-form-field{
     width: 300px;
 }
 
-.mat-input-element{
-    color: black;
+.info{
+    font-size: medium;
 }
