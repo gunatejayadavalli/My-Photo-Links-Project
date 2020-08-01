@@ -26,7 +26,6 @@ import { ManageUsersComponent } from './superadmin/manage-users/manage-users.com
 import {ManageUsersService} from './services/manage-users.service';
 import { FooterComponent } from './navigation/footer/footer.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
-import {DisableControlDirective} from './my-profile/disable-control.directive';
 import { ManageTagsComponent } from './superadmin/manage-tags/manage-tags.component';
 import { AboutMeComponent } from './info/about-me/about-me.component';
 import { AboutAppComponent } from './info/about-app/about-app.component';
@@ -52,7 +51,6 @@ import { AssignTagsComponent } from './superadmin/manage-users/assign-tags/assig
     ManageUsersComponent,
     FooterComponent,
     MyProfileComponent,
-    DisableControlDirective,
     ManageTagsComponent,
     AboutMeComponent,
     AboutAppComponent,
