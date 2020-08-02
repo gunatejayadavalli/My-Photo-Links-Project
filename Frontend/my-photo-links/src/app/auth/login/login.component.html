@@ -26,8 +26,8 @@
 
   </mat-card-content>
   <mat-card-actions>
-    <button *ngIf="!isLoading" mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="OnSubmit()">Submit</button>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="OnSubmit()">Submit</button>
+    <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
   </mat-card-actions>
 
   <a class="linkButton" mat-button color="primary" routerLink="/resetPwd">Forgot your password?</a>

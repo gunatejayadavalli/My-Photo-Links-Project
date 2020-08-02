@@ -60,8 +60,8 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button  *ngIf="!adding" mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="addForm.invalid">Add</button>
-        <mat-spinner *ngIf="adding"></mat-spinner>
+        <button mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="addForm.invalid">Add</button>
+        <!-- <mat-spinner *ngIf="adding"></mat-spinner> -->
       </mat-card-actions>
     
     </mat-card>

@@ -33,6 +33,70 @@ import {FeedbackService} from './services/feedback.service';
 import {GiveFeedbackComponent} from './give-feedback/give-feedback.component';
 import { ViewFeedbacksComponent } from './superadmin/view-feedbacks/view-feedbacks.component';
 import { AssignTagsComponent } from './superadmin/manage-users/assign-tags/assign-tags.component';
+import {
+  NgxUiLoaderConfig,
+  NgxUiLoaderHttpModule,
+  NgxUiLoaderModule
+} from 'ngx-ui-loader';
+
+// const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+//   "bgsColor": "red",
+//   "bgsOpacity": 0.5,
+//   "bgsPosition": "bottom-right",
+//   "bgsSize": 60,
+//   "bgsType": "ball-spin-clockwise",
+//   "blur": 4,
+//   "fgsColor": "#00324F",
+//   "fgsPosition": "center-center",
+//   "fgsSize": 40,
+//   "fgsType": "ball-spin-clockwise",
+//   "gap": 24,
+//   "logoPosition": "center-center",
+//   "logoSize": 120,
+//   "logoUrl": "",
+//   "masterLoaderId": "master",
+//   "overlayBorderRadius": "0",
+//   "overlayColor": "rgba(250,250,250,0.4)",
+//   "pbColor": "red",
+//   "pbDirection": "ltr",
+//   "pbThickness": 3,
+//   "hasProgressBar": false,
+//   "text": "",
+//   "textColor": "#FFFFFF",
+//   "textPosition": "center-center"
+// };
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = 
+{
+  "bgsColor": "red",
+  "bgsOpacity": 0.5,
+  "bgsPosition": "bottom-right",
+  "bgsSize": 50,
+  "bgsType": "ball-spin-clockwise",
+  "blur": 5,
+  "delay": 0,
+  "fastFadeOut": true,
+  "fgsColor": "red",
+  "fgsPosition": "center-center",
+  "fgsSize": 50,
+  "fgsType": "rectangle-bounce",
+  "gap": 24,
+  "logoPosition": "center-center",
+  "logoSize": 120,
+  "logoUrl": "",
+  "masterLoaderId": "master",
+  "overlayBorderRadius": "0",
+  "overlayColor": "rgba(40, 40, 40, 0.8)",
+  "pbColor": "red",
+  "pbDirection": "ltr",
+  "pbThickness": 1,
+  "hasProgressBar": true,
+  "text": "",
+  "textColor": "#FFFFFF",
+  "textPosition": "center-center",
+  "maxTime": -1,
+  "minTime": 300
+}
 
 @NgModule({
   declarations: [
@@ -66,7 +130,9 @@ import { AssignTagsComponent } from './superadmin/manage-users/assign-tags/assig
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderHttpModule.forRoot({ showForeground: true })
   ],
   providers: [
     AuthService,

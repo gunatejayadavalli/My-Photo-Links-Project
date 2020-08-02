@@ -1,0 +1,13 @@
+{
+  "appId": "com.iamguna.myphotolinks",
+  "appName": "My Photo Links",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "docs",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

@@ -94,8 +94,12 @@ export class AuthService {
       return;
     }else{
       if (authData._token) {
-        const data = new AuthData(authData.userId,authData.userName,authData._token,authData.loginDate,authData._tokenExpirationDate);
-        this.isAuth.next(true);
+        const timeRemaining : number = new Date(authData._tokenExpirationDate).getTime() - new Date().getTime();
+        if(timeRemaining>0){
+          this.isAuth.next(true); 
+        }else{
+          this.logout();
+        }
       }
     }
   }

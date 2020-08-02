@@ -64,9 +64,9 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button  *ngIf="!updatingUser && editProfile" mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="userFormGroup.invalid">Save</button>
-        <button  *ngIf="!updatingUser && editProfile" mat-raised-button color="primary" (click)="onCancelEdit()">Cancel</button>
-        <mat-spinner *ngIf="updatingUser"></mat-spinner>
+        <button  *ngIf="editProfile" mat-raised-button color="primary" (click)="OnSubmit()" [disabled]="userFormGroup.invalid">Save</button>
+        <button  *ngIf="editProfile" mat-raised-button color="primary" (click)="onCancelEdit()">Cancel</button>
+        <!-- <mat-spinner *ngIf="updatingUser"></mat-spinner> -->
       </mat-card-actions>
 
       <button  mat-button color="primary" *ngIf="editProfile && !editPassword" (click)="enableEditPassword()">Change password ?</button>

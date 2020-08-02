@@ -36,8 +36,8 @@
     
       </mat-card-content>
       <mat-card-actions>
-        <button *ngIf="!isSubmitting" mat-raised-button color="primary" [disabled]="feedbackFormGroup.invalid" (click)="OnSubmit()">Submit</button>
-        <mat-spinner *ngIf="isSubmitting"></mat-spinner>
+        <button mat-raised-button color="primary" [disabled]="feedbackFormGroup.invalid" (click)="OnSubmit()">Submit</button>
+        <!-- <mat-spinner *ngIf="isSubmitting"></mat-spinner> -->
       </mat-card-actions>
     
     </mat-card>

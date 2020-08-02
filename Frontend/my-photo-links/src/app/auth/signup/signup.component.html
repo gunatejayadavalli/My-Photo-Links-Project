@@ -21,11 +21,11 @@
             <mat-error *ngIf="userNameFormgroup.controls.username.hasError('pattern')">Username should contain alphanumerics only</mat-error>
             <mat-error *ngIf="userNameFormgroup.controls.username.hasError('notUnique')">Username already taken</mat-error>
           </mat-form-field>
-          <div *ngIf="!isUsernameValidating">
+          <div>
           <button mat-button color="primary" [disabled]="userNameFormgroup.controls.username.invalid || !userNameFormgroup.hasError('modified')" (click)="validateUserName()">Check Availability</button>
           <button mat-button matStepperNext color="primary" [disabled]="userNameFormgroup.invalid">Next</button>
           </div>
-          <mat-spinner *ngIf="isUsernameValidating"></mat-spinner>
+          <!-- <mat-spinner *ngIf="isUsernameValidating"></mat-spinner> -->
         </form>
       </mat-step>
 
@@ -90,11 +90,11 @@
             <input type="text" matInput placeholder="Your answer" formControlName="answer">
             <mat-error>Missing answer</mat-error>
           </mat-form-field>
-          <div *ngIf="!isLoading">
+          <div>
             <button mat-button matStepperPrevious color="accent">Back</button>
             <button mat-button (click)="OnSubmit()" [disabled]="secQuesAnsFormGroup.invalid">Submit</button>
           </div>
-          <mat-spinner *ngIf="isLoading"></mat-spinner>
+          <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
         </form>
       </mat-step>
 
